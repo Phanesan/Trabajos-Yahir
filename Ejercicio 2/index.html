@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="canvas" width=500px height=500px></canvas>
+
+    <script type="text/javascript">
+        const DOC = document.getElementById("canvas");
+
+        const context = DOC.getContext("2d");
+
+        context.fillStyle = "red"
+        context.fillRect(20,20,100,100);
+
+        context.fillStyle = "rgba(32,207,27,0.5)"
+        context.fillRect(100,100,100,100);
+
+        context.fillStyle = "#1E66C9"
+        context.fillRect(180,180,100,100);
+
+        context.strokeStyle = "#298F1F";
+        context.lineWidth = 5;
+        context.strokeRect(260,260,100,100);
+
+        context.strokeStyle = "#EE1313";
+        context.lineWidth = 3;
+        context.strokeRect(340,340,100,100);
+        
+        context.fillStyle = "#E74CA3"
+        context.beginPath();
+
+        context.moveTo(230,260);
+        context.lineTo(420,220);
+        context.lineTo(350,320);
+        context.closePath();
+        context.fillStyle = "blue"
+        context.fill();
+        context.lineWidth = 3;
+        context.strokeStyle = "#F93829"
+        context.stroke();
+
+    </script>
+
+    <style type="text/css">
+        body{
+            background-color: black;
+        }
+        canvas{
+            background-color: rgb(163, 163, 163);
+        }
+    </style>
+</body>
+</html>
