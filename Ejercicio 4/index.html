@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="canvas" width=600px height=600px></canvas>
+
+    <script type="text/javascript">
+        const DOC = document.getElementById("canvas");
+
+        const ctx = DOC.getContext("2d");
+
+        ctx.strokeStyle = "#00857F";
+        ctx.strokeRect(140,140,80,80);
+
+        ctx.fillStyle = "#2D93FF";
+        ctx.fillRect(180,180,80,80);
+        
+        ctx.fillStyle = "black";
+        ctx.fillRect(220,220,80,80);
+
+        ctx.strokeStyle = "#0DE524";
+        ctx.strokeRect(260,260,80,80);
+
+        ctx.beginPath();
+        ctx.moveTo(320,160);
+        ctx.lineTo(480,160);
+        ctx.lineTo(400,110);
+        ctx.closePath();
+        ctx.fillStyle = "#3712EC";
+        ctx.fill();
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = "#F10F87";
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(180,480,90,0,2*Math.PI,false);
+        ctx.fillStyle = "#EE1F1F";
+        ctx.fill();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "black"
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(315,480,90,0,2*Math.PI,false);
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "black"
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(490,450,50,0.20*Math.PI,0.70*Math.PI,false);
+        ctx.fillStyle = "#EE1F1F";
+        ctx.fill();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "black"
+        ctx.stroke();
+
+        ctx.font = "35px Comic Sans"
+        ctx.fillStyle = "#5CD862"
+        ctx.fillText("Hola mundo :D", 300,70)
+
+        ctx.font = "35px Comic Sans"
+        ctx.strokeStyle = "#5C92D8"
+        ctx.strokeText("Hola mundo :D", 300,70)
+
+    </script>
+
+    <style type="text/css">
+        body{
+            background-color: black;
+        }
+        canvas{
+            background-color: rgb(163, 163, 163);
+        }
+    </style>
+</body>
+</html>
