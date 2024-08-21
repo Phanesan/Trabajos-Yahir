@@ -11,19 +11,42 @@
     <script type="text/javascript">
         const DOC = document.getElementById("canvas");
         const ctx = DOC.getContext("2d");
+        var figura = 0;
+
+        document.getElementById("canvas").addEventListener("mouseout",(event) => {
+            console.log("salio");
+            figura = figura == 0 ? 1:0
+        })
 
         document.getElementById("canvas").addEventListener("mousedown",(event) => {
-            console.log("circulo");
+            ctx.fillStyle = generarColorRandom();
+            if(figura == 0) {
+                console.log("circulo");
 
-            ctx.beginPath();
-            ctx.arc(event.x,event.y,90,0,2*Math.PI,false);
-            ctx.fillStyle = "rgba(75,225,54,0.5)";
-            ctx.fill();
-            ctx.lineWidth = 2;
-            ctx.strokeStyle = "black"
-            ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(event.x,event.y,90,0,2*Math.PI,false);
+                ctx.fill();
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = "black"
+                ctx.stroke();
+            } else {
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = "black"
+                ctx.strokeRect(event.x-70,event.y-70,140,140)
+                ctx.fillRect(event.x-70,event.y-70,140,140);
+            }
+            
 
         })
+
+        function generarColorRandom() {
+            const r = Math.floor(Math.random() * 256);
+            const g = Math.floor(Math.random() * 256);
+            const b = Math.floor(Math.random() * 256);
+
+            return `rgba(${r}, ${g}, ${b}, 0.5)`;
+        }
+
     </script>
 
     <style type="text/css">
