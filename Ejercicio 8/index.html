@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="canvas" width="1000px" height="1000px"></canvas>
+
+    <script type="text/javascript">
+        const DOC = document.getElementById("canvas");
+        const ctx = DOC.getContext("2d");
+
+        document.getElementById("canvas").addEventListener("mousedown",(event) => {
+            console.log("circulo");
+
+            ctx.beginPath();
+            ctx.arc(event.x,event.y,90,0,2*Math.PI,false);
+            ctx.fillStyle = "rgba(75,225,54,0.5)";
+            ctx.fill();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = "black"
+            ctx.stroke();
+
+        })
+    </script>
+
+    <style type="text/css">
+        body{
+            background-color: rgb(59, 59, 59);
+        }
+    </style>
+</body>
+</html>
