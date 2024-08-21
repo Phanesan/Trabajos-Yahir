@@ -11,31 +11,21 @@
     <script type="text/javascript">
         const DOC = document.getElementById("canvas");
         const ctx = DOC.getContext("2d");
-        var figura = 0;
 
-        document.getElementById("canvas").addEventListener("mouseout",(event) => {
-            console.log("salio");
-            figura = figura == 0 ? 1:0
+        document.getElementById("canvas").addEventListener("mouseover",(event) => {
+            console.log("salio")
+            ctx.fillStyle = generarColorRandom();
         })
 
         document.getElementById("canvas").addEventListener("mousedown",(event) => {
-            ctx.fillStyle = generarColorRandom();
-            if(figura == 0) {
-                console.log("circulo");
+            console.log("circulo");
 
-                ctx.beginPath();
-                ctx.arc(event.x,event.y,90,0,2*Math.PI,false);
-                ctx.fill();
-                ctx.lineWidth = 2;
-                ctx.strokeStyle = "black"
-                ctx.stroke();
-            } else {
-                ctx.lineWidth = 2;
-                ctx.strokeStyle = "black"
-                ctx.strokeRect(event.x-70,event.y-70,140,140)
-                ctx.fillRect(event.x-70,event.y-70,140,140);
-            }
-            
+            ctx.beginPath();
+            ctx.arc(event.x,event.y,90,0,2*Math.PI,false);
+            ctx.fill();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = "black"
+            ctx.stroke();
 
         })
 
