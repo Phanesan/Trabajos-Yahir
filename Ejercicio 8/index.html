@@ -12,14 +12,23 @@
         const DOC = document.getElementById("canvas");
         const ctx = DOC.getContext("2d");
         var figura = 0;
+        var press = 0;
+
+        document.getElementById("canvas").addEventListener("mouseup",(event) => {
+            press = 0;
+        })
 
         document.getElementById("canvas").addEventListener("mousemove",(event) => {
-            ctx.beginPath();
-            ctx.arc(event.x,event.y,3,0,2*Math.PI,false);
-            ctx.fill();
-            ctx.lineWidth = 2;
-            ctx.strokeStyle = "black"
-            ctx.stroke();
+            console.log(press);
+            if(press == 1) {
+                ctx.beginPath();
+                ctx.arc(event.x,event.y,3,0,2*Math.PI,false);
+                ctx.fill();
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = "black"
+                ctx.stroke();
+            }
+
         })
 
         document.getElementById("canvas").addEventListener("mouseout",(event) => {
@@ -33,6 +42,7 @@
         })
 
         document.getElementById("canvas").addEventListener("mousedown",(event) => {
+            press = 1;
             if(figura == 0) {
                 console.log("circulo");
 
