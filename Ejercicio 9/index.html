@@ -16,28 +16,40 @@
         var speed = 10;
 
         document.addEventListener("keydown", (event) => {
-            console.log(event);
+            console.log(`x:${x} y:${y}`);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             switch(event.key) {
                 case "w":
                     console.log("w")
                     y-=speed;
+                    if(y < 0) {
+                        y+=canvas.height-150;
+                    }
                     updateRect();
                     break;
                 case "a":
                     console.log("a")
                     x-=speed;
+                    if(x < 0) {
+                        x+=canvas.width-100+speed;
+                    }
                     updateRect();
                     break;
                 case "s":
                     console.log("s")
                     y+=speed;
+                    if(y > canvas.height-150-speed) {
+                        y-=canvas.height-150;
+                    }
                     updateRect();
                     break;
                 case "d":
                     console.log("d")
                     x+=speed;
+                    if(x > canvas.width-100) {
+                        x-=canvas.width-100+speed;
+                    }
                     updateRect();
                     break;
                 default:
@@ -49,9 +61,17 @@
         function updateRect() {
             ctx.lineWidth = 3;
             ctx.strokeStyle = "black"
-            ctx.fillStyle = "red";
+            ctx.fillStyle = generarColorRandom();
             ctx.strokeRect(x,y,100,100)
             ctx.fillRect(x,y,100,100);
+        }
+
+        function generarColorRandom() {
+            const r = Math.floor(Math.random() * 256);
+            const g = Math.floor(Math.random() * 256);
+            const b = Math.floor(Math.random() * 256);
+
+            return `rgba(${r}, ${g}, ${b}, 0.5)`;
         }
 
         ctx.lineWidth = 3;
