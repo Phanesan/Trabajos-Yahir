@@ -16,14 +16,20 @@
         var speed = 10;
         var direction = null;
 
+        update()
+        
         document.addEventListener("keydown", (event) => {
             console.log(`x:${x} y:${y}`);
-            if(direction == null) {
-                update();
+
+            switch(event.keyCode) {
+                case 32:
+                    speed+=1;
+                    break;
             }
+
             keyPressed(event);
         });
-
+        
         function update() {
             switch(direction) {
                 case "up":
@@ -54,7 +60,6 @@
                     break;
                 }
             paint();
-            requestAnimationFrame(update)
         }
 
         function keyPressed(event) {
@@ -82,6 +87,9 @@
             ctx.fillStyle = generarColorRandom();
             ctx.strokeRect(x,y,100,100)
             ctx.fillRect(x,y,100,100);
+            UI();
+
+            requestAnimationFrame(update);
         }
 
         function generarColorRandom() {
@@ -90,6 +98,12 @@
             const b = Math.floor(Math.random() * 256);
 
             return `rgba(${r}, ${g}, ${b}, 0.5)`;
+        }
+
+        function UI() {
+            ctx.font = "50px Arial";
+            ctx.fillStyle = "white";
+            ctx.fillText(`SPEED: ${speed}`,500,80);
         }
 
         ctx.lineWidth = 3;
