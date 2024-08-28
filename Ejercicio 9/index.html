@@ -14,51 +14,69 @@
 
         var x = 300, y = 300;
         var speed = 10;
+        var direction = null;
 
         document.addEventListener("keydown", (event) => {
             console.log(`x:${x} y:${y}`);
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if(direction == null) {
+                update();
+            }
+            keyPressed(event);
+        });
 
-            switch(event.key) {
-                case "w":
-                    console.log("w")
+        function update() {
+            switch(direction) {
+                case "up":
                     y-=speed;
                     if(y < 0) {
                         y+=canvas.height-150;
                     }
-                    updateRect();
                     break;
-                case "a":
-                    console.log("a")
+                case "left":
                     x-=speed;
                     if(x < 0) {
                         x+=canvas.width-100+speed;
                     }
-                    updateRect();
                     break;
-                case "s":
-                    console.log("s")
+                case "down":
                     y+=speed;
                     if(y > canvas.height-150-speed) {
                         y-=canvas.height-150;
                     }
-                    updateRect();
                     break;
-                case "d":
-                    console.log("d")
+                case "right":
                     x+=speed;
                     if(x > canvas.width-100) {
                         x-=canvas.width-100+speed;
                     }
-                    updateRect();
                     break;
                 default:
-                    updateRect();
+                    break;
+                }
+            paint();
+            requestAnimationFrame(update)
+        }
+
+        function keyPressed(event) {
+            console.log(event.key)
+            switch(event.key) {
+                case "w":
+                    direction = "up";
+                    break;
+                case "a":
+                    direction = "left";
+                    break;
+                case "s":
+                    direction = "down";
+                    break;
+                case "d":
+                    direction = "right";
                     break;
             }
-        });
+        }
 
-        function updateRect() {
+        function paint() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // limpiar pantalla
             ctx.lineWidth = 3;
             ctx.strokeStyle = "black"
             ctx.fillStyle = generarColorRandom();
