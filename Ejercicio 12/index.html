@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="canvas" width="1200" height="900"></canvas>
+
+    <script>
+        var startXX = 0, startYY = 0, PX1 = 0, PY1 = 0, PX2 = 0, PY2 = 0, endXX = 0, endYY = 0; 
+        var i1 = 5, i2 = 5, r = 0;
+
+        document.addEventListener('mousedown', (event) => {
+            console.log(`Coordenadas X: ${event.x} Y: ${event.y}`)
+
+            switch(event.button) {
+                case 0:
+                    startXX = event.x-4
+                    startYY = event.y-4
+                    break;
+                case 1:
+                    PX1 = event.x-4
+                    PY1 = event.y-4
+                    break;
+                case 2:
+                    endXX = event.x-4
+                    endYY = event.y-4
+                    break;
+                case 4:
+                    PX1 = event.x-4
+                    PY1 = event.y-4
+                case 3:
+                    PX2 = event.x-4
+                    PY2 = event.y-4
+                    break;
+            }
+            console.log(`Triangle: ${startXX},${startYY},${endXX},${endYY},${PX1},${PY1}`)
+            console.log(`Rect: ${startXX},${startYY},${i1},${i2}`)
+            console.log(`Circle: ${startXX},${startYY},${i1},${i2},${r}`)
+            console.log(`Line: ${startXX},${startYY},${PX1},${PY1},${PX2},${PY2},${endXX},${endYY}`)
+            //draw();
+        })
+
+        document.addEventListener("keydown", (event) => {
+            switch(event.key) {
+                case 'z':
+                    i1++;
+                    break;
+                case 'x':
+                    i1--;
+                    break;
+                case 'c':
+                    i2++;
+                    break;
+                case 'v':
+                    i2--;
+                    break;
+                case 'r':
+                    r+=0.1
+                    break;
+                case 't':
+                    r-=0.1
+                    break;
+                case 'n':
+                    i1+=20
+                    break;
+                case 'm':
+                    i1-=20;
+                    break;
+                case 'j':
+                    i2+=20
+                    break;
+                case 'k':
+                    i2-=20;
+                    break;
+            }
+            console.log(`Triangle: ${startXX},${startYY},${endXX},${endYY},${PX1},${PY1}`)
+            console.log(`Rect: ${startXX},${startYY},${i1},${i2}`)
+            console.log(`Circle: ${startXX},${startYY},${i1},${i2},${r}`)
+            console.log(`Line: ${startXX},${startYY},${PX1},${PY1},${PX2},${PY2},${endXX},${endYY}`)
+            //draw();
+        })
+
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        let grosor = 6;
+
+        function drawEllipse(posX, posY, radioX, radioY, rotation, startAngle, endAngle, anticlock, color = 'white', stroke = grosor, strokeColor = 'black') {
+            ctx.fillStyle = color
+            ctx.strokeStyle = strokeColor
+            ctx.beginPath();
+            ctx.ellipse(posX, posY, radioX, radioY, rotation, startAngle, endAngle, anticlock);
+            ctx.lineWidth = stroke;
+            ctx.stroke();
+            ctx.fill();
+        }
+
+        function drawSquare(x, y, sizeX, sizeY, fillColor = 'white', strokeColor = 'black', stroke = grosor) {
+            ctx.fillStyle = fillColor;
+            ctx.strokeStyle = strokeColor;
+            ctx.lineWidth = stroke;
+
+            ctx.beginPath();
+            ctx.rect(x, y, sizeX, sizeY);
+            ctx.closePath();
+
+            ctx.fill();
+
+            ctx.stroke();
+        }
+
+        function drawFillSquare(x, y, sizeX, sizeY, fillColor = 'white', strokeColor = 'black', stroke = grosor) {
+            ctx.fillStyle = fillColor;
+
+            ctx.fillRect(x, y, sizeX, sizeY);
+        }
+
+        function drawLine(startX, startY, control1X, control1Y, control2X, control2Y, endX, endY, strokeColor = 'black', stroke = grosor) {
+            ctx.strokeStyle = strokeColor
+            ctx.lineWidth = stroke
+            
+            ctx.beginPath();
+            ctx.moveTo(startX, startY);
+            ctx.bezierCurveTo(control1X, control1Y, control2X, control2Y, endX, endY);
+            ctx.stroke();
+        }
+
+        function drawTriangle(x1, y1, x2, y2, x3, y3, fillColor = 'transparent', strokeColor = 'black', strokeWidth = 1) {
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.lineTo(x3, y3);
+            ctx.closePath();
+
+            ctx.fillStyle = fillColor;
+            ctx.fill();
+
+            ctx.strokeStyle = strokeColor;
+            ctx.lineWidth = strokeWidth;
+            ctx.stroke();
+        }
+
+        function draw() {
+            drawFillSquare(0,0,1200,1200,'#64D3F6','#64D3F6',0)
+            
+            drawEllipse(60,817,41,104,0,0,2*Math.PI,false,'#25CD00',grosor,'black')
+
+            drawSquare(428,438,203,360,'#50D1E1','black',grosor);
+            drawEllipse(446,456,5,5,0,0,2*Math.PI,false,'#939393',grosor+6,'black')
+            drawEllipse(614,457,5,5,0,0,2*Math.PI,false,'#939393',grosor+6,'black')
+            drawEllipse(614,781,5,5,0,0,2*Math.PI,false,'#939393',grosor+6,'black')
+            
+            drawSquare(1207,799,-1234,105,'#FF9E00','black',grosor);
+            drawSquare(249,585,229,213,'#FFC8C8','black',grosor);
+            drawEllipse(269,605,5,5,0,0,2*Math.PI,false,'#939393',grosor+6,'black')
+            drawEllipse(460,604,5,5,0,0,2*Math.PI,false,'#939393',grosor+6,'black')
+            drawEllipse(268,779,5,5,0,0,2*Math.PI,false,'#939393',grosor+6,'black')
+            
+            drawEllipse(461,782,5,5,0,0,2*Math.PI,false,'#939393',grosor+6,'black')
+            drawSquare(481,627,31,167,'black','black',grosor);
+            drawSquare(635,480,33,314,'black','black',grosor);
+            
+            drawSquare(34,526,67,66,'#C1865B','black',grosor);
+            drawEllipse(45,537,2,2,0,0,2*Math.PI,false,'black',0,'black')
+            drawEllipse(92,537,2,2,0,0,2*Math.PI,false,'black',0,'black')
+            drawEllipse(44,583,2,2,0,0,2*Math.PI,false,'black',0,'black')
+            drawEllipse(91,582,2,2,0,0,2*Math.PI,false,'black',0,'black')
+            
+            drawSquare(170,302,65,65,'#C1865B','black',grosor);
+            drawSquare(240,302,65,65,'#C1865B','black',grosor);
+            drawEllipse(180,312,2,2,0,0,2*Math.PI,false,'black',0,'black')
+            drawEllipse(225,313,2,2,0,0,2*Math.PI,false,'black',0,'black')
+            drawEllipse(179,357,2,2,0,0,2*Math.PI,false,'black',0,'black')
+            drawEllipse(226,357,2,2,0,0,2*Math.PI,false,'black',0,'black')
+            drawEllipse(249,312,2,2,0,0,2*Math.PI,false,'black',0,'black')
+            drawEllipse(296,313,2,2,0,0,2*Math.PI,false,'black',0,'black')
+            drawEllipse(250,358,2,2,0,0,2*Math.PI,false,'black',0,'black')
+            drawEllipse(295,358,2,2,0,0,2*Math.PI,false,'black',0,'black')
+            
+            drawSquare(1029,614,205,185,'#70E52D','black',grosor);
+            drawEllipse(1045,632,5,5,0,0,2*Math.PI,false,'#939393',grosor+6,'black')
+            drawEllipse(1044,782,5,5,0,0,2*Math.PI,false,'#939393',grosor+6,'black')
+            
+            drawSquare(1095,341,65,65,'#C1865B','black',grosor);
+            drawEllipse(1105,352,2,2,0,0,2*Math.PI,false,'black',0,'black')
+            drawEllipse(1150,353,2,2,0,0,2*Math.PI,false,'black',0,'black')
+            drawEllipse(1106,395,2,2,0,0,2*Math.PI,false,'black',0,'black')
+            drawEllipse(1149,396,2,2,0,0,2*Math.PI,false,'black',0,'black')
+            
+            drawSquare(824,654,109,145,'#61C627','black',grosor);
+            drawSquare(814,590,129,65,'#61C627','black',grosor);
+            
+            drawSquare(872,504,15,85,'#74E732','black',grosor);
+            drawEllipse(878,458,44,43,0,1.23*Math.PI,0.7*Math.PI,false,'#F46634',grosor+6,'black')
+            drawTriangle(835,427,842,495,879,462,'#64D3F6','#64D3F6',0)
+            drawLine(843,423,857,440,857,440,886,460,'white',grosor+15)
+            drawLine(844,489,860,482,882,467,882,452,'white',grosor+15)
+            drawEllipse(708,587,13,13,0,0,2*Math.PI,false,'#FF1B00',grosor,'#EE6F42')
+            drawTriangle(701,576,721,587,723,559,'#FF1B00','#EE6F42',grosor)
+            
+            //drawLine(startXX,startYY,PX1,PY1,PX2,PY2,endXX,endYY,'white',grosor+15)
+            //drawEllipse(startXX,startYY,i1,i2,r,0,2*Math.PI,false,'#25CD00',grosor,'black')
+            //drawTriangle(startXX,startYY,endXX,endYY,PX1,PY1,'#FF1B00','#EE6F42',grosor)
+            //drawSquare(startXX,startYY,i1,i2,'#74E732','black',grosor);
+        }
+
+        draw();
+    </script>
+</body>
+</html>
