@@ -13,7 +13,6 @@
 
         document.addEventListener('mousedown', (event) => {
             console.log(`Coordenadas X: ${event.x} Y: ${event.y}`)
-            //console.log(event)
 
             switch(event.button) {
                 case 0:
@@ -34,7 +33,7 @@
             }
             console.log(`Circle: ${startXX},${startYY},${i1},${i2},${r}`)
             console.log(`Line: ${startXX},${startYY},${PX1},${PY1},${PX2},${PY2},${endXX},${endYY}`)
-            draw();
+            //draw();
         })
 
         document.addEventListener("keydown", (event) => {
@@ -60,7 +59,7 @@
             }
             console.log(`Circle: ${startXX},${startYY},${i1},${i2},${r}`)
             console.log(`Line: ${startXX},${startYY},${PX1},${PY1},${PX2},${PY2},${endXX},${endYY}`)
-            draw();
+            //draw();
         })
 
         const canvas = document.getElementById('canvas');
@@ -108,30 +107,13 @@
             ctx.stroke();
         }
 
-        // TEST
-
-        function testImg() {
-            const image = new Image();
-            image.src = 'sparkle-hanabi.png'; // Asegúrate de reemplazar con la ruta a tu imagen
-
-            // Espera a que la imagen se cargue antes de dibujarla
-            image.onload = function() {
-                // Configura la opacidad
-                ctx.globalAlpha = 0; // 0.0 es completamente transparente, 1.0 es completamente opaco
-
-                // Dibuja la imagen en el canvas
-                ctx.drawImage(image, 480, 47, 700, 700); // Puedes ajustar las coordenadas y el tamaño según sea necesario
-                ctx.globalAlpha = 1;
-            };
-        }
-
         ///////////////////////////////////////////////////////////////////////
 
         function draw() {
             drawFillSquare(0,0,1300,900,'rgba(255,255,255,1)','rgba(255,255,255,1)',0)
-            testImg();
 
             // ZONA: Cara //
+            drawEllipse(810,438,21,7,0,0,2*Math.PI,false,'rgb(237,217,214)',0,'transparent')
             drawEllipse(800, 286, 190, 142, 0, 0, 2 * Math.PI, false, 'rgb(237,217,214)')
             
             // =====================================================================================
@@ -261,7 +243,6 @@
             drawEllipse(655,106,11,26,0,0,2*Math.PI,false,'rgba(219,57,81,255)',0,'transparent')
             drawEllipse(673,124,16,5,-0.899,0,2*Math.PI,false,'rgba(219,57,81,255)',0,'transparent')
             drawEllipse(673,110,20,5,0.7,0,2*Math.PI,false,'rgba(219,57,81,255)',0,'transparent')
-            //drawEllipse(startXX,startYY,i1,i2,r,0,2*Math.PI,false,'red',0,'transparent')
             
             // Figura
             drawLine(856,101,780,61,629,103,605,264,'black',grosor-8)
@@ -291,7 +272,80 @@
             drawLine(965,239,974,265,993,296,1017,302,'black',grosor-8)
             drawLine(975,179,981,202,1021,203,1011,222,'black',grosor-12)
             
-            drawLine(startXX,startYY,PX1,PY1,PX2,PY2,endXX,endYY,'black',grosor-8)
+            // ===================================================================
+
+            // Cuerpo
+
+            // Color
+
+            drawEllipse(730,494,11,26,0.6,0,2*Math.PI,false,'rgba(219,57,81,255)',0,'transparent')
+            drawEllipse(739,500,22,21,0.5,0,2*Math.PI,false,'rgba(219,57,81,255)',0,'transparent')
+            drawEllipse(755,473,15,18,0,0,2*Math.PI,false,'rgba(219,57,81,255)',0,'transparent')
+            drawEllipse(769,480,27,36,0,0,2*Math.PI,false,'rgba(219,57,81,255)',0,'transparent')
+            drawEllipse(829,489,71,23,0,0,2*Math.PI,false,'rgba(219,57,81,255)',0,'transparent')
+            drawEllipse(856,458,22,20,0,0,2*Math.PI,false,'rgba(219,57,81,255)',0,'transparent')
+            drawEllipse(828,464,24,5,-0.4,0,2*Math.PI,false,'rgba(219,57,81,255)',0,'transparent')
+            drawEllipse(802,464,13,6,0,0,2*Math.PI,false,'rgba(219,57,81,255)',0,'transparent')
+            drawEllipse(880,472,23,8,-2.2,0,2*Math.PI,false,'rgba(219,57,81,255)',0,'transparent')
+            drawEllipse(880,508,24,10,-0.4,0,2*Math.PI,false,'rgba(219,57,81,255)',0,'transparent')
+            drawEllipse(903,500,8,11,0,0,2*Math.PI,false,'rgba(219,57,81,255)',0,'transparent')
+            drawEllipse(808,569,49,34,0,0,2*Math.PI,false,'rgba(219,57,81,255)',0,'transparent')
+            drawEllipse(771,550,25,9,0,0,2*Math.PI,false,'rgba(219,57,81,255)',0,'transparent')
+            drawEllipse(705,591,17,30,0.5,0,2*Math.PI,false,'rgba(219,57,81,255)',0,'transparent')
+            drawEllipse(905,583,19,27,-0.799,0,2*Math.PI,false,'rgba(219,57,81,255)',0,'transparent')
+            drawEllipse(930,594,8,10,0,0,2*Math.PI,false,'rgba(219,57,81,255)',0,'transparent')
+            drawEllipse(797,523,52,15,-0.2,0,2*Math.PI,false,'rgba(51,49,51,255)',0,'transparent')
+            drawEllipse(861,530,7,7,0,0,2*Math.PI,false,'rgba(51,49,51,255)',0,'transparent')
+            drawEllipse(804,614,28,7,0,0,2*Math.PI,false,'rgba(254,202,82,255)',0,'transparent')
+            drawEllipse(782,608,10,7,0.4,0,2*Math.PI,false,'rgba(254,202,82,255)',0,'transparent')
+            drawEllipse(831,608,12,5,-0.30,0,2*Math.PI,false,'rgba(254,202,82,255)',0,'transparent')
+            drawEllipse(731,523,24,4,3.3,0,2*Math.PI,false,'rgba(254,202,82,255)',0,'transparent')
+            drawEllipse(891,520,24,8,-0.3,0,2*Math.PI,false,'rgba(254,202,82,255)',0,'transparent')
+            drawEllipse(914,519,5,5,0,0,2*Math.PI,false,'rgba(254,202,82,255)',0,'transparent')
+            drawEllipse(748,487,10,4,0.7999,0,2*Math.PI,false,'white',0,'transparent')
+            drawEllipse(747,487,9,4,-0.6,0,2*Math.PI,false,'white',0,'transparent')
+            drawEllipse(877,492,8,3,0.9999,0,2*Math.PI,false,'white',0,'transparent')
+            drawEllipse(878,493,9,3,-0.4,0,2*Math.PI,false,'white',0,'transparent')
+            drawEllipse(722,541,23,17,-0.2,0,2*Math.PI,false,'rgb(237,217,214)',0,'transparent')
+            drawEllipse(901,540,24,18,-0.10000000000000003,0,2*Math.PI,false,'rgb(237,217,214)',0,'transparent')
+            drawEllipse(792,449,19,5,0.5,0,2*Math.PI,false,'rgba(247,220,200,255)',0,'transparent')
+            drawEllipse(830,446,26,7,2.50,0,2*Math.PI,false,'rgba(247,220,200,255)',0,'transparent')
+            
+            // Lineas
+
+            drawLine(784,432,734,461,698,507,702,550,'black',grosor-8)
+            drawLine(700,547,717,580,756,558,763,477,'black',grosor-8)
+            drawLine(849,428,899,468,940,533,914,558,'black',grosor-8)
+            drawLine(844,456,859,520,884,575,915,557,'black',grosor-8)
+            drawLine(780,435,813,454,813,454,838,430,'black',grosor-8)
+            drawLine(707,561,698,576,674,616,685,619,'black',grosor-8)
+            drawLine(680,618,705,617,720,603,723,604,'black',grosor-8)
+            drawLine(906,561,912,571,941,584,941,599,'black',grosor-8)
+            drawLine(881,600,901,612,933,606,940,597,'black',grosor-8)
+            drawLine(770,612,794,632,824,628,842,606,'black',grosor-8)
+            drawLine(777,598,797,608,822,609,838,595,'black',grosor-8)
+            drawLine(769,441,805,470,818,473,856,429,'black',grosor-8)
+            drawLine(810,450,806,468,768,520,757,519,'black',grosor-8)
+            drawLine(868,522,881,512,881,512,917,508,'black',grosor-8)
+            drawLine(875,535,881,527,908,519,923,525,'black',grosor-8)
+            drawLine(708,516,727,514,727,514,755,524,'black',grosor-8)
+            drawLine(705,526,727,523,727,523,752,535,'black',grosor-8)
+            drawLine(764,517,781,507,846,505,870,519,'black',grosor-8)
+            drawLine(746,545,773,535,823,531,875,539,'black',grosor-8)
+            drawEllipse(838,520,10,25,-0.4,0,2*Math.PI,false,'white',16,'black')
+            drawEllipse(836,522,23,7,-0.4,0,2*Math.PI,false,'white',16,'black')
+            drawEllipse(838,520,2,15,-0.30000000000000004,0,2*Math.PI,false,'white',0,'white')
+            drawEllipse(840,519,9,4,1.0999,0,2*Math.PI,false,'rgba(222,55,79,255)',0,'transparent')
+            drawEllipse(840,520,9,4,-0.4,0,2*Math.PI,false,'rgba(222,55,79,255)',0,'transparent')
+            drawLine(776,580,787,591,826,595,841,578,'white',grosor-8)
+            drawEllipse(746,592,27,39,0.2,0,2*Math.PI,false,'rgba(51,49,51,255)',16,'black')
+            drawEllipse(866,584,27,38,0,0,2*Math.PI,false,'rgba(51,49,51,255)',16,'black')
+            //drawLine(startXX,startYY,PX1,PY1,PX2,PY2,endXX,endYY,'black',grosor-8)
+            drawEllipse(startXX,startYY,i1,i2,r,0,2*Math.PI,false,'rgb(237,217,214)',0,'transparent')
+
+            ctx.font = '40px Arial';
+            ctx.fillStyle = 'black';
+            ctx.fillText('Yahir Emmanuel Romo Palomino', 40, 850);
         }
         draw()
 
