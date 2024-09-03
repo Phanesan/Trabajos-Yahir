@@ -12,7 +12,7 @@
         const ctx = DOC.getContext('2d');
 
         var direction = null;
-        var speed = 4;
+        var speed = 3;
 
         function keyPressed(event) {
             console.log(event.key)
@@ -49,11 +49,14 @@
             constructor() {
                 this.gameObjects = [];
 
-                var player = new Rect("player",100,100,'red',60,60);
+                var player = new Rect("player",100,430,'red',60,61);
                 this.gameObjects.push(player);
 
                 var target = new Rect("target",300,300,'black',10,10,false);
                 this.gameObjects.push(target);
+
+                var wall = new Wall("wall",120,400,'green',600,10);
+                this.gameObjects.push(wall);
             }
 
             getGameObject(name) {
@@ -61,16 +64,17 @@
             }
 
             update() {
-                this.gameObjects.forEach((element,index) => {
-                    element.update();
+                this.gameObjects.forEach((element1,index1) => {
+                    let posAnterior = [element1.x,element1.y];
+                    element1.update();
                     
-                    if(this.gameObjects[index+1] != undefined) {
-                        //console.log(element.collision(this.gameObjects[index+1]));
-                        if(element.collision(this.gameObjects[index+1])) {
-                            this.getGameObject("target").x = Math.random() * (650 - 150) + 50;
-                            this.getGameObject("target").y = Math.random() * (650 - 150) + 50;
+                    this.gameObjects.forEach((element2) => {
+                        if(element1.collision(element2)) {
+                            if(element1 != element2) {
+                                element1.actionCollision(element2,posAnterior);
+                            }
                         }
-                    }
+                    })
                 });
 
                 this.paint();
@@ -100,10 +104,20 @@
             }
 
             collision(other) {
-                if(this.x < other.x + other.w && this.x + this.w > other.x && this.y < other.y + other.h && this.y + this.h > other.y) {
+                if(this.x < other.x + other.h && this.x + this.h > other.x && this.y < other.y + other.w && this.y + this.w > other.y) {
                     return true;
                 }
                 return false;
+            }
+
+            actionCollision(gameObject,posAnterior) {
+                if(gameObject.name == "target") {
+                    gameObject.x = Math.random() * (650 - 150) + 50;
+                    gameObject.y = Math.random() * (650 - 150) + 50;
+                } else if(gameObject.name == "wall") {
+                    this.x = posAnterior[0]
+                    this.y = posAnterior[1]
+                }
             }
 
             update() {
@@ -137,6 +151,41 @@
                         break;
                     }
                 }
+            }
+            
+            paint() {
+                ctx.lineWidth = 3;
+                ctx.strokeStyle = "black"
+                ctx.fillStyle = this.color;
+                ctx.strokeRect(this.x,this.y,this.h,this.w)
+                ctx.fillRect(this.x,this.y,this.h,this.w);
+            }
+        }
+
+        class Wall {
+            
+            constructor(name,x,y,color,h,w) {
+                this.name = name;
+                this.x = x;
+                this.y = y,
+                this.color = color;
+                this.h = h;
+                this.w = w;
+            }
+
+            collision(other) {
+                if(this.x < other.x + other.h && this.x + this.h > other.x && this.y < other.y + other.w && this.y + this.w > other.y) {
+                    return true;
+                }
+                return false;
+            }
+
+            actionCollision(gameObject,posAnterior) {
+                
+            }
+
+            update() {
+                
             }
             
             paint() {
