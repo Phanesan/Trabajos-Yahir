@@ -12,7 +12,7 @@
         const ctx = DOC.getContext('2d');
 
         var direction = null;
-        var speed = 5;
+        var speed = 4;
 
         function keyPressed(event) {
             console.log(event.key)
@@ -49,11 +49,15 @@
             constructor() {
                 this.gameObjects = [];
 
-                var player = new Rect(100,100,'red',60,60);
+                var player = new Rect("player",100,100,'red',60,60);
                 this.gameObjects.push(player);
 
-                var target = new Rect(300,300,'black',10,10,false);
+                var target = new Rect("target",300,300,'black',10,10,false);
                 this.gameObjects.push(target);
+            }
+
+            getGameObject(name) {
+                return this.gameObjects.find(element => element.name === name);
             }
 
             update() {
@@ -61,9 +65,10 @@
                     element.update();
                     
                     if(this.gameObjects[index+1] != undefined) {
-                        console.log(element.collision(this.gameObjects[index+1]));
+                        //console.log(element.collision(this.gameObjects[index+1]));
                         if(element.collision(this.gameObjects[index+1])) {
-    
+                            this.getGameObject("target").x = Math.random() * (650 - 150) + 50;
+                            this.getGameObject("target").y = Math.random() * (650 - 150) + 50;
                         }
                     }
                 });
@@ -84,7 +89,8 @@
 
         class Rect {
             
-            constructor(x,y,color,h,w,isPlayer = true) {
+            constructor(name,x,y,color,h,w,isPlayer = true) {
+                this.name = name;
                 this.x = x;
                 this.y = y,
                 this.color = color;
@@ -94,7 +100,9 @@
             }
 
             collision(other) {
-                if(this.x < other.x + other.w && this.x + this.w > other.x && this.y < other.y + other.h && this.y + this.h > other.y)
+                if(this.x < other.x + other.w && this.x + this.w > other.x && this.y < other.y + other.h && this.y + this.h > other.y) {
+                    return true;
+                }
                 return false;
             }
 
