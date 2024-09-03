@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="canvas" width="800px" height="800px"></canvas>
+    <script>
+        const DOC = document.getElementById("canvas");
+        const ctx = DOC.getContext('2d');
+
+        var direction = null;
+        var speed = 5;
+
+        function keyPressed(event) {
+            console.log(event.key)
+            switch(event.key) {
+                case "w":
+                    direction = "up";
+                    break;
+                case "a":
+                    direction = "left";
+                    break;
+                case "s":
+                    direction = "down";
+                    break;
+                case "d":
+                    direction = "right";
+                    break;
+            }
+        }
+
+        document.addEventListener("keydown", (event) => {
+            //console.log(`x:${x} y:${y}`);
+
+            switch(event.keyCode) {
+                case 32:
+                    speed+=1;
+                    break;
+            }
+
+            keyPressed(event);
+        });
+
+        class GameManager {
+
+            constructor() {
+                this.gameObjects = [];
+
+                var player = new Rect(100,100,'red',60,60);
+                this.gameObjects.push(player);
+
+                var target = new Rect(300,300,'black',10,10,false);
+                this.gameObjects.push(target);
+            }
+
+            update() {
+                this.gameObjects.forEach((element,index) => {
+                    element.update();
+                    
+                    if(this.gameObjects[index+1] != undefined) {
+                        console.log(element.collision(this.gameObjects[index+1]));
+                        if(element.collision(this.gameObjects[index+1])) {
+    
+                        }
+                    }
+                });
+
+                this.paint();
+            }
+
+            paint() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height); // limpiar pantalla
+
+                this.gameObjects.forEach(element => {
+                    element.paint();
+                });
+
+                requestAnimationFrame(this.update.bind(this));
+            }
+        }
+
+        class Rect {
+            
+            constructor(x,y,color,h,w,isPlayer = true) {
+                this.x = x;
+                this.y = y,
+                this.color = color;
+                this.h = h;
+                this.w = w;
+                this.isPlayer = isPlayer;
+            }
+
+            collision(other) {
+                if(this.x < other.x + other.w && this.x + this.w > other.x && this.y < other.y + other.h && this.y + this.h > other.y)
+                return false;
+            }
+
+            update() {
+                if(this.isPlayer) {
+                    switch(direction) {
+                    case "up":
+                        this.y-=speed;
+                        if(this.y < 0) {
+                            this.y+=canvas.height-150;
+                        }
+                        break;
+                    case "left":
+                        this.x-=speed;
+                        if(this.x < 0) {
+                            this.x+=canvas.width-100+speed;
+                        }
+                        break;
+                    case "down":
+                        this.y+=speed;
+                        if(this.y > canvas.height-150-speed) {
+                            this.y-=canvas.height-150;
+                        }
+                        break;
+                    case "right":
+                        this.x+=speed;
+                        if(this.x > canvas.width-100) {
+                            this.x-=canvas.width-100+speed;
+                        }
+                        break;
+                    default:
+                        break;
+                    }
+                }
+            }
+            
+            paint() {
+                ctx.lineWidth = 3;
+                ctx.strokeStyle = "black"
+                ctx.fillStyle = this.color;
+                ctx.strokeRect(this.x,this.y,this.h,this.w)
+                ctx.fillRect(this.x,this.y,this.h,this.w);
+            }
+        }
+
+        const gameManager = new GameManager();
+        gameManager.update();
+
+    </script>
+</body>
+</html>
