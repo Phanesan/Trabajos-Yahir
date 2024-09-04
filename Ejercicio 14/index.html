@@ -37,7 +37,17 @@
 
             switch(event.keyCode) {
                 case 32:
-                    speed+=1;
+                    gameManager.pause = !gameManager.pause;
+                    if(gameManager.pause == false) {
+                        gameManager.update();
+                    } else {
+                        ctx.fillStyle = "rgba(0,0,0,0.36)"
+                        ctx.fillRect(0,0,canvas.width,canvas.height);
+                        
+                        ctx.font = "40px Arial";
+                        ctx.fillStyle = "white";
+                        ctx.fillText(`P A U S E`,280,440);
+                    }
                     break;
             }
 
@@ -48,6 +58,8 @@
 
             constructor() {
                 this.gameObjects = [];
+                this.score = 0;
+                this.pause = false;
 
                 var player = new Rect("player",100,430,'red',60,61);
                 this.gameObjects.push(player);
@@ -68,30 +80,39 @@
             }
 
             update() {
-                this.gameObjects.forEach((element1,index1) => {
-                    let posAnterior = [element1.x,element1.y];
-                    element1.update();
-                    
-                    this.gameObjects.forEach((element2) => {
-                        if(element1.collision(element2)) {
-                            if(element1 != element2) {
-                                element1.actionCollision(element2,posAnterior);
+                if(!this.pause) {
+                    this.gameObjects.forEach((element1,index1) => {
+                        let posAnterior = [element1.x,element1.y];
+                        element1.update();
+                        
+                        this.gameObjects.forEach((element2) => {
+                            if(element1.collision(element2)) {
+                                if(element1 != element2) {
+                                    element1.actionCollision(this,element2,posAnterior);
+                                }
                             }
-                        }
-                    })
-                });
+                        })
+                    });
 
-                this.paint();
+                    this.paint();
+                }
             }
 
             paint() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height); // limpiar pantalla
-
+                
                 this.gameObjects.forEach(element => {
                     element.paint();
                 });
+                this.UI();
 
                 requestAnimationFrame(this.update.bind(this));
+            }
+
+            UI() {
+                ctx.font = "40px Arial";
+                ctx.fillStyle = "black";
+                ctx.fillText(`SCORE: ${this.score}`,10,50);
             }
         }
 
@@ -114,10 +135,12 @@
                 return false;
             }
 
-            actionCollision(gameObject,posAnterior) {
+            actionCollision(gameManager,gameObject,posAnterior) {
                 if(gameObject.name == "target") {
                     gameObject.x = Math.random() * (650 - 150) + 50;
                     gameObject.y = Math.random() * (650 - 150) + 50;
+
+                    gameManager.score++;
                 } else if(gameObject.name == "wall") {
                     this.x = posAnterior[0]
                     this.y = posAnterior[1]
