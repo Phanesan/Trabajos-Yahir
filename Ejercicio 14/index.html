@@ -11,6 +11,11 @@
         const DOC = document.getElementById("canvas");
         const ctx = DOC.getContext('2d');
 
+        const PJ = new Image();
+        PJ.src = "PJ.png";
+        var audio = new Audio();
+        audio.src = "target.wav";
+
         var direction = null;
         var speed = 3;
 
@@ -34,7 +39,7 @@
 
         document.addEventListener("keydown", (event) => {
             //console.log(`x:${x} y:${y}`);
-
+            
             switch(event.keyCode) {
                 case 32:
                     gameManager.pause = !gameManager.pause;
@@ -140,6 +145,11 @@
                     gameObject.x = Math.random() * (650 - 150) + 50;
                     gameObject.y = Math.random() * (650 - 150) + 50;
 
+                    // sound
+                    audio.currentTime = 0
+                    audio.loop = false
+                    audio.play();
+
                     gameManager.score++;
                 } else if(gameObject.name == "wall") {
                     this.x = posAnterior[0]
@@ -181,11 +191,15 @@
             }
             
             paint() {
-                ctx.lineWidth = 3;
-                ctx.strokeStyle = "black"
-                ctx.fillStyle = this.color;
-                ctx.strokeRect(this.x,this.y,this.h,this.w)
-                ctx.fillRect(this.x,this.y,this.h,this.w);
+                if(this.isPlayer) {
+                    ctx.drawImage(PJ,this.x,this.y,this.w,this.h);
+                } else {
+                    ctx.lineWidth = 3;
+                    ctx.strokeStyle = "black"
+                    ctx.fillStyle = this.color;
+                    ctx.strokeRect(this.x,this.y,this.h,this.w)
+                    ctx.fillRect(this.x,this.y,this.h,this.w);
+                }
             }
         }
 
