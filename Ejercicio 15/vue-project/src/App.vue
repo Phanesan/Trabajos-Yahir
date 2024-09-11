@@ -1,19 +1,31 @@
 <template>
-  <form>
-    <label for="text">Texto:</label>
-    <input type="text" id="text" v-model="text" />
-    <p>{{ text }}</p>
-    <br />
-    <label for="num1">Numero 1:</label>
-    <input type="text" id="num1" v-model="num1" />
-    <br />
-    <label for="num2">Numero 2:</label>
-    <input type="text" id="num2" v-model="num2" />
-    <br />
-    <button @click.prevent="sumar">Sumar</button>
-  </form>
-  <br />
-  <p>{{ resultado }}</p>
+  <div id="app">
+    <!-- Arreglo de lista -->
+    <ul>
+      <li id="item" v-for="item in data">
+        <p>ID:</p>
+        <p id="field">{{ item.id }}</p>
+        <p>Nombre:</p>
+        <p id="field">{{ item.name }}</p>
+        <p>Edad:</p>
+        <p id="field">{{ item.age }}</p>
+      </li>
+    </ul>
+
+    <!-- Formulario -->
+    <div>
+      <form id="formulario">
+        <label for="id">ID:</label>
+        <input type="text" id="id" name="id" v-model="id">
+        <label for="name">Nombre:</label>
+        <input type="text" id="name" name="name" v-model="name">
+        <label for="age">Edad:</label>
+        <input type="text" id="age" name="age" v-model="age">
+        <button id="button" type="submit" @click.prevent="store">Enviar</button>
+      </form>
+    </div>
+  </div>
+
 </template>
 
 <script>
@@ -22,21 +34,41 @@ import { ref } from "vue";
 export default {
   data() {
 
-    const text = ref("");
-    const num1 = ref(0);
-    const num2 = ref(0);
-    const resultado = ref("");
-    const sumar = () => {
-      resultado.value = parseInt(num1.value) + parseInt(num2.value);
-    }
+    const data = ref([]);
 
     return {
-      text,
-      num1,
-      num2,
-      sumar,
-      resultado
+      data
     };
+  },
+  methods: {
+    store () {
+      this.data.push({id: this.id, name: this.name, age: this.age});
+
+      this.id = "";
+      this.name = "";
+      this.age = "";
+    }
   }
 };
 </script>
+
+<style>
+#formulario {
+  display: flex;
+  flex-direction: column;
+}
+#button {
+  margin-top: 3vh;
+}
+#app {
+  display: flex;
+  flex-direction: column;
+}
+#item {
+  display: flex;
+  flex-direction: row;
+}
+#field {
+  margin-right: 1vw;
+}
+</style>
