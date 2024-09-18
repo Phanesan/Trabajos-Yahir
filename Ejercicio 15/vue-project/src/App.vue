@@ -1,28 +1,18 @@
 <template>
   <div id="app">
-    <!-- Arreglo de lista -->
-    <ul>
-      <li id="item" v-for="item in data">
-        <p>ID:</p>
-        <p id="field">{{ item.id }}</p>
-        <p>Nombre:</p>
-        <p id="field">{{ item.name }}</p>
-        <p>Edad:</p>
-        <p id="field">{{ item.age }}</p>
-      </li>
-    </ul>
-
     <!-- Formulario -->
-    <div>
-      <form id="formulario">
-        <label for="id">ID:</label>
-        <input type="text" id="id" name="id" v-model="id">
-        <label for="name">Nombre:</label>
-        <input type="text" id="name" name="name" v-model="name">
-        <label for="age">Edad:</label>
-        <input type="text" id="age" name="age" v-model="age">
-        <button id="button" type="submit" @click.prevent="store">Enviar</button>
+    <div v-if="logged === false">
+      <form id="formulario" @submit.prevent="store">
+        <label for="id">Correo:</label>
+        <input type="text" v-model="email">
+        <label for="name">Contraseña:</label>
+        <input type="text" v-model="password">
+        <button id="button" type="submit">Enviar</button>
       </form>
+    </div>
+
+    <div v-if="logged">
+      <p>Has iniciado sesión</p>
     </div>
   </div>
 
@@ -34,19 +24,31 @@ import { ref } from "vue";
 export default {
   data() {
 
-    const data = ref([]);
+    const email = ref("");
+    const password = ref("");
+    const logged = ref(false);
 
     return {
-      data
+      email,
+      password,
+      logged
     };
   },
   methods: {
     store () {
-      this.data.push({id: this.id, name: this.name, age: this.age});
+      // Peticion a un JSON
+      fetch('users.json')
+        .then(response => response.json())
+        .then(json => {
+          json.forEach(element => {
+            if(element.email === this.email && element.password === this.password) {
+              this.logged = ref(true);
+            }
+          });
+          
+        })
 
-      this.id = "";
-      this.name = "";
-      this.age = "";
+      
     }
   }
 };
