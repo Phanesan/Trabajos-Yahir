@@ -8,6 +8,7 @@
             <th>Nombre</th>
             <th>Usuario</th>
             <th>Correo</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -16,6 +17,9 @@
             <td>{{ user.name }}</td>
             <td>{{ user.username }}</td>
             <td>{{ user.email }}</td>
+            <td>
+              <button @click="deleteUser(user.id)">Eliminar</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -29,6 +33,14 @@ export default {
     users: {
       type: Array,
       required: true
+    }
+  },
+  methods: {
+    deleteUser(id) {
+      const index = this.users.findIndex(user => user.id === id);
+      if (index !== -1) {
+        this.users.splice(index, 1);
+      }
     }
   }
 }
