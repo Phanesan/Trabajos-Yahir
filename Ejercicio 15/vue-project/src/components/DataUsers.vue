@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="!isEditing">
       <h2>Lista de Usuarios</h2>
       <table>
         <thead>
@@ -19,14 +19,22 @@
             <td>{{ user.email }}</td>
             <td>
               <button @click="deleteUser(user.id)">Eliminar</button>
+              <button @click="editUser(user.id)">Editar</button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
+
+    <div v-else>
+      <EditForm :user="user" />
+    </div>
   </template>
 
 <script>
+import { ref } from "vue";
+import EditForm from "./EditForm.vue";
+
 export default {
   name: 'DataUsers',
   props: {
@@ -35,13 +43,32 @@ export default {
       required: true
     }
   },
+  data() {
+    const isEditing = ref(false);
+    const user = ref({});
+
+    return {
+      isEditing,
+      user
+    }
+  },
   methods: {
     deleteUser(id) {
       const index = this.users.findIndex(user => user.id === id);
       if (index !== -1) {
         this.users.splice(index, 1);
       }
+    },
+    editUser(id) {
+      const index = this.users.findIndex(user => user.id === id);
+      if (index !== -1) {
+        this.user = this.users[index];
+        this.isEditing = true;
+      }
     }
+  },
+  components: {
+    EditForm
   }
 }
 </script>

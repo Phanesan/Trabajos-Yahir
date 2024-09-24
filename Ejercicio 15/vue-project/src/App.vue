@@ -55,6 +55,7 @@ export default {
             if(element.email === this.email && element.password === this.password) {
               this.logged = true;
               localStorage.setItem('logged', true);
+              localStorage.setItem('users', JSON.stringify(json));
             }
           });
           
@@ -65,13 +66,15 @@ export default {
     DataUsers: defineAsyncComponent(() => import('./components/DataUsers.vue'))
   },
   mounted() {
-    fetch('users.json')
+    /*fetch('users.json')
       .then(response => response.json())
       .then(json => {
         this.users = ref(json);
         localStorage.setItem('users', JSON.stringify(this.users));
       });
+    */
 
+    this.users = JSON.parse(localStorage.getItem('users'));
     if(localStorage.getItem('logged') === 'true') {
       this.logged = true;
     }
