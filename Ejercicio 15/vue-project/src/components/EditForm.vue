@@ -7,7 +7,7 @@
         <label for="username">Usuario:</label>
         <input type="text" v-model="username">
         <label for="email">Correo:</label>
-        <input type="text" v-model="email">
+        <input type="text" v-model="email" readonly>
         <label for="password">Contraseña Nueva:</label>
         <input type="password" v-model="password" required>
         <button type="submit">Actualizar</button>
@@ -23,6 +23,10 @@ export default {
   props: {
     user: {
       type: Object,
+      required: true
+    },
+    isEditing: {
+      type: Boolean,
       required: true
     }
   },

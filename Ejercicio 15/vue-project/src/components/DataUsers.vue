@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!isEditing">
+    <div v-if="!isEditing && !isCreating">
       <h2>Lista de Usuarios</h2>
       <table>
         <thead>
@@ -24,16 +24,23 @@
           </tr>
         </tbody>
       </table>
+
+      <button @click="createUser">Añadir usuario</button>
     </div>
 
-    <div v-else>
+    <div v-else-if="isEditing">
       <EditForm :user="user" />
+    </div>
+
+    <div v-if="isCreating">
+      <CreateForm />
     </div>
   </template>
 
 <script>
 import { ref } from "vue";
 import EditForm from "./EditForm.vue";
+import CreateForm from "./CreateForm.vue";
 
 export default {
   name: 'DataUsers',
@@ -45,10 +52,12 @@ export default {
   },
   data() {
     const isEditing = ref(false);
+    const isCreating = ref(false);
     const user = ref({});
 
     return {
       isEditing,
+      isCreating,
       user
     }
   },
@@ -65,10 +74,19 @@ export default {
         this.user = this.users[index];
         this.isEditing = true;
       }
+
+      console.log(this.isEditing)
+      console.log(this.isCreating)
+    },
+    createUser() {
+      this.isCreating = true;
+      console.log(this.isEditing)
+      console.log(this.isCreating)
     }
   },
   components: {
-    EditForm
+    EditForm,
+    CreateForm
   }
 }
 </script>

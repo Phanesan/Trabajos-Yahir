@@ -53,12 +53,14 @@ export default {
         .then(json => {
           json.forEach(element => {
             if(element.email === this.email && element.password === this.password) {
-              this.logged = true;
               localStorage.setItem('logged', true);
               localStorage.setItem('users', JSON.stringify(json));
+              this.users = JSON.parse(localStorage.getItem('users'));
             }
           });
-          
+        })
+        .then(() => {
+          this.logged = true;
         })
     }
   },
