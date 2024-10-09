@@ -2,6 +2,10 @@
 @bg-color-container: rgb(0, 0, 0);
 @text-color: white;
 
+ol, ul {
+    list-style-type: none;
+}
+
 // Centra los elementos dentro del navegador
 body{
     display: flex;
@@ -45,3 +49,25 @@ body{
         height: 25px;
     }
 }
+
+.for(@list, @code) {
+    & {
+        .loop(@i:1) when (@i =< length(@list)) {
+            @value: extract(@list, @i);
+
+            @code();
+
+            .loop(@i + 1);
+        }
+
+        .loop();
+    }
+}
+
+@colors: #24ffd3, #19a017, #e2d326, #9b59b6, #3f3fb6;
+
+.for(@colors, {
+    .color-@{i} {
+        background-color: @value;
+    }
+});
