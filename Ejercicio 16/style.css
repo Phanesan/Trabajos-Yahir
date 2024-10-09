@@ -1,0 +1,36 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #2e2e2e;
+  color: white;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 62vh;
+  width: 48vh;
+  background-color: #000000;
+  color: white;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding-bottom: 2vh;
+}
+.form-group input {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
+  width: 100%;
+  border-radius: 5px;
+  border: none;
+}
+.form-group button {
+  width: 100px;
+  height: 25px;
+}
