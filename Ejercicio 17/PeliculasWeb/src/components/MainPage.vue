@@ -16,7 +16,6 @@
 import axios from "axios";
 import { ref } from "vue";
 import { defineAsyncComponent } from "vue";
-import MoviesContent from "./Async/MoviesContent.vue";
 
 export default {
     name: "MainPage",

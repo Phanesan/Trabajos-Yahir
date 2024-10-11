@@ -5,49 +5,51 @@
   <div class="main">
     <!-- Formulario Login -->
     <LoginForm v-if="!logged" />
-    <View v-else-if="idView" :idView="idView" />
+    <View v-else-if="idView" :idView="idView" @back="back" />
     <MainPage v-else @viewCinema="viewCinema" />
-
   </div>
 </template>
 
 <script>
-  import { ref } from 'vue';
-  import LoginForm from './components/LoginForm.vue';
-  import MainPage from './components/MainPage.vue';
-  import View from './components/View.vue';
+import { ref } from 'vue'
+import LoginForm from './components/LoginForm.vue'
+import MainPage from './components/MainPage.vue'
+import View from './components/View.vue'
 
-  export default {
-    name: 'App',
-    components: {
-      LoginForm,
-      MainPage,
-      View
-    },
-    data() {
-      const logged = ref(false);
-      const idView = ref();
+export default {
+  name: 'App',
+  components: {
+    LoginForm,
+    MainPage,
+    View
+  },
+  data() {
+    const logged = ref(false)
+    const idView = ref()
 
-      return {
-        logged,
-        idView
-      }
+    return {
+      logged,
+      idView
+    }
+  },
+  mounted() {
+    if (localStorage.getItem('payload')) {
+      this.logged = true
+    }
+  },
+  methods: {
+    viewCinema(id) {
+      this.idView = id
     },
-    mounted() {
-      if(localStorage.getItem('payload')) {
-        this.logged = true;
-      }
-    },
-    methods: {
-      viewCinema(id) {
-        this.idView = id
-      }
+    back() {
+      this.idView = null;
+      console.log("Test")
     }
   }
+}
 </script>
 
 <style scoped>
-
 .main {
   display: flex;
   justify-content: center;

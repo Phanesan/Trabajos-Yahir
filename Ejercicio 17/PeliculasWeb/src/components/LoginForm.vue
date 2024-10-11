@@ -114,6 +114,8 @@ export default {
   height: 54vh;
   width: 20vw;
   border-radius: 1rem;
+  margin-top: 10em;
+  margin-bottom: 15em;
 }
 
 .loginFormTop {

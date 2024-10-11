@@ -55,6 +55,14 @@ export default {
     border-radius: 0.6rem;
 }
 
+.card:hover {
+    cursor: pointer;
+    transform: scale(1.02);
+    box-shadow: 9px 9px 33px #d1d1d1, -9px -9px 33px #ffffff;
+    transition: 0.3s;
+    transform: translateY(-2px);
+}
+
 .imgLabel {
     display: flex;
     justify-content: center;
