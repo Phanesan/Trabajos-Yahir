@@ -2,7 +2,7 @@
     <div class="content">
         <Suspense>
             <template #default>
-                <MoviesContent :movies="moviesData" />
+                <MoviesContent :movies="moviesData" @viewCinema="viewCinema" />
             </template>
 
             <template #fallback>
@@ -20,6 +20,12 @@ import MoviesContent from "./Async/MoviesContent.vue";
 
 export default {
     name: "MainPage",
+    methods: {
+        viewCinema(id) {
+            console.log(id);
+            this.$emit("viewCinema", id);
+        }
+    },
     data() {
         const moviesData = ref([]);
 

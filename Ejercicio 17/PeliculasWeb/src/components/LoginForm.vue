@@ -43,41 +43,64 @@ export default {
         const api_key = "b268f05dee97359b50ef5b57232a727a";
 
         let config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: `https://api.themoviedb.org/3/authentication/token/new?api_key=${api_key}`,
-            headers: { }
+          method: 'get',
+          maxBodyLength: Infinity,
+          url: 'https://api.themoviedb.org/3/authentication/token/new?api_key=' + api_key,
+          headers: { }
         };
 
         axios.request(config)
         .then((response) => {
-            let data = JSON.stringify({
+          console.log(username.value);
+          let data = JSON.stringify({
             "username": username.value,
             "password": password.value,
             "request_token": response.data.request_token
+          });
+
+          let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'https://api.themoviedb.org/3/authentication/token/validate_with_login?api_key=' + api_key,
+            headers: { 
+              'Content-Type': 'application/json'
+            },
+            data : data
+          };
+
+          axios.request(config)
+          .then((response) => {
+            localStorage.setItem('payload', JSON.stringify(response.data));
+
+            let data = JSON.stringify({
+              "request_token": response.data.request_token
             });
 
             let config = {
-            method: 'post',
-            maxBodyLength: Infinity,
-            url: `https://api.themoviedb.org/3/authentication/token/validate_with_login?api_key=${api_key}`,
-            headers: { 
+              method: 'post',
+              maxBodyLength: Infinity,
+              url: 'https://api.themoviedb.org/3/authentication/session/new?api_key=' + api_key,
+              headers: { 
                 'Content-Type': 'application/json'
-            },
-            data : data
+              },
+              data : data
             };
 
             axios.request(config)
             .then((response) => {
-                localStorage.setItem('payload', JSON.stringify(response.data));
-                window.location.reload();
+              localStorage.setItem('session_id', response.data.session_id);
+              window.location.reload();
             })
             .catch((error) => {
-            console.log(error);
+              console.log(error);
             });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
         })
         .catch((error) => {
-            console.log(error);
+          console.log(error);
         });
     }
   }

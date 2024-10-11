@@ -5,7 +5,8 @@
   <div class="main">
     <!-- Formulario Login -->
     <LoginForm v-if="!logged" />
-    <MainPage v-else />
+    <View v-else-if="idView" :idView="idView" />
+    <MainPage v-else @viewCinema="viewCinema" />
 
   </div>
 </template>
@@ -14,23 +15,32 @@
   import { ref } from 'vue';
   import LoginForm from './components/LoginForm.vue';
   import MainPage from './components/MainPage.vue';
+  import View from './components/View.vue';
 
   export default {
     name: 'App',
     components: {
       LoginForm,
-      MainPage
+      MainPage,
+      View
     },
     data() {
       const logged = ref(false);
+      const idView = ref();
 
       return {
-        logged
+        logged,
+        idView
       }
     },
     mounted() {
       if(localStorage.getItem('payload')) {
         this.logged = true;
+      }
+    },
+    methods: {
+      viewCinema(id) {
+        this.idView = id
       }
     }
   }
@@ -42,9 +52,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100%;
   width: 100vw;
   background-color: #140f07;
+  margin-top: 8vh;
 }
 
 #header {

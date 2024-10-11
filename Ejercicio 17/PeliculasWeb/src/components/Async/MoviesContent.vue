@@ -1,12 +1,12 @@
 <template>
-    <div class="cards" v-for="movie in movies">
-        <div class="card">
+    <div class="cards">
+        <div class="card" v-for="movie in movies" :key="movie.id" @click="$emit('viewCinema', movie.id)">
             <div class="imgLabel">
-                <img src="" alt="Avatar">
+                <img :src='"https://media.themoviedb.org/t/p/w220_and_h330_face/"+movie.backdrop_path' alt="banner">
             </div>
             <div class="contentCard">
-                <h2>Title</h2>
-                <p>Description</p>
+                <h2>{{movie.title}}</h2>
+                <p>{{movie.overview}}</p>
             </div>
         </div>
     </div>
@@ -22,10 +22,7 @@ export default {
         }
     },
     setup(movies) {
-        console.log('movies', movies)
-    },
-    methods: {
-        
+        //console.log('movies', movies)
     },
     mounted() {
         
@@ -39,8 +36,8 @@ export default {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    height: 68vh;
-    width: 28vw;
+    height: 100%;
+    width: 100%;
 }
 
 .card {
@@ -69,8 +66,6 @@ export default {
     img {
         max-width: 100%;
         max-height: 100%;
-        border-top-left-radius: 0.6rem;
-        border-top-right-radius: 0.6rem;
         object-fit: cover;
     }
 }
