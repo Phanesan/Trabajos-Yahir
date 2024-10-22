@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Productos</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,6 +43,95 @@
             </div>
     
             <div class="col-md-9">
+                <div class="row">
+                    <div class="col-12 pb-4 pe-4 d-flex justify-content-end">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                            Añadir Producto
+                        </button>
+                    </div>
+                
+                    <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addProductModalLabel">Añadir Nuevo Producto</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="productName" class="form-label">Nombre del Producto</label>
+                                            <input type="text" class="form-control" id="productName" placeholder="Ingresa el nombre del producto">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="productPrice" class="form-label">Precio</label>
+                                            <input type="number" class="form-control" id="productPrice" placeholder="Ingresa el precio">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="productDescription" class="form-label">Descripción</label>
+                                            <textarea class="form-control" id="productDescription" rows="3" placeholder="Añade una descripción"></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="productImage" class="form-label">Imagen del Producto</label>
+                                            <input type="file" class="form-control" id="productImage">
+                                        </div>
+                                        <button type="submit" class="btn btn-success">Añadir Producto</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editProductModalLabel">Editar Producto</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="productName" class="form-label">Nombre del Producto</label>
+                                            <input type="text" class="form-control" id="productName" placeholder="Nombre del producto">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="productPrice" class="form-label">Precio</label>
+                                            <input type="number" class="form-control" id="productPrice" placeholder="Precio">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="productDescription" class="form-label">Descripción</label>
+                                            <textarea class="form-control" id="productDescription" rows="3" placeholder="Descripción"></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="productImage" class="form-label">Imagen del Producto</label>
+                                            <input type="file" class="form-control" id="productImage">
+                                        </div>
+                                        <button type="submit" class="btn btn-success">Editar Producto</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="productDeletedModal" tabindex="-1" aria-labelledby="productDeletedModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="productDeletedModalLabel">Producto Eliminado</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>El producto ha sido eliminado exitosamente.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
                 <div class="row row-cols-1 row-cols-md-3 g-4">
                     <div class="col">
                         <div class="card">
@@ -51,6 +140,12 @@
                                 <h5 class="card-title">Producto 1</h5>
                                 <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo debitis non molestiae dolores consectetur eum ducimus. Deleniti, dignissimos necessitatibus saepe corrupti voluptate quae sed asperiores nihil odit ex amet molestias!.</p>
                                 <button class="btn btn-primary">Comprar</button>
+                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editProductModal">
+                                    Editar Producto
+                                </button>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#productDeletedModal">
+                                    Eliminar Producto
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -62,6 +157,12 @@
                                 <h5 class="card-title">Producto 2</h5>
                                 <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt possimus facere molestiae, a magnam veritatis, obcaecati quae et officia atque repudiandae saepe quidem nihil hic est rerum! In, vero fugiat.</p>
                                 <button class="btn btn-primary">Comprar</button>
+                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editProductModal">
+                                    Editar Producto
+                                </button>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#productDeletedModal">
+                                    Eliminar Producto
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -73,6 +174,12 @@
                                 <h5 class="card-title">Producto 3</h5>
                                 <p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus dolor quaerat nostrum quibusdam corrupti rem optio beatae. Sapiente quibusdam dolor, in id iusto minima eligendi voluptatum veniam molestiae, tempore ratione?.</p>
                                 <button class="btn btn-primary">Comprar</button>
+                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editProductModal">
+                                    Editar Producto
+                                </button>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#productDeletedModal">
+                                    Eliminar Producto
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -84,6 +191,12 @@
                                 <h5 class="card-title">Producto 4</h5>
                                 <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro sed praesentium dolorem soluta laudantium repellat dicta tempora dignissimos, delectus ratione quisquam blanditiis quis, earum reprehenderit, tenetur ipsam libero ea. At!.</p>
                                 <button class="btn btn-primary">Comprar</button>
+                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editProductModal">
+                                    Editar Producto
+                                </button>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#productDeletedModal">
+                                    Eliminar Producto
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -95,6 +208,12 @@
                                 <h5 class="card-title">Producto 5</h5>
                                 <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Id sequi porro incidunt reprehenderit. Laboriosam placeat eius reiciendis vitae temporibus odio adipisci asperiores quisquam sed voluptatibus repellendus, quo ullam quia autem!.</p>
                                 <button class="btn btn-primary">Comprar</button>
+                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editProductModal">
+                                    Editar Producto
+                                </button>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#productDeletedModal">
+                                    Eliminar Producto
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -106,6 +225,12 @@
                                 <h5 class="card-title">Producto 6</h5>
                                 <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, saepe quasi? Soluta ipsam fugit voluptate molestias fuga consequatur enim inventore, assumenda iste nesciunt aspernatur exercitationem itaque provident labore totam ea.</p>
                                 <button class="btn btn-primary">Comprar</button>
+                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editProductModal">
+                                    Editar Producto
+                                </button>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#productDeletedModal">
+                                    Eliminar Producto
+                                </button>
                             </div>
                         </div>
                     </div>
