@@ -1,3 +1,12 @@
+<?php
+
+require 'App/ProductController.php';
+
+$slug = $_GET['slug'];
+
+$product = json_decode(ProductController::product($slug), true)['data'];
+
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -46,11 +55,11 @@
       <div class="row">
         <div class="col-md-3">
           <div class="list-group">
-            <a href="index.html" class="list-group-item list-group-item-action"
+            <a href="home.php" class="list-group-item list-group-item-action"
               >Productos</a
             >
             <a
-              href="detalles-productos.html"
+              href="detalles-productos.php?slug=<?= $product['slug'] ?>"
               class="list-group-item list-group-item-action active"
               >Detalle de Productos</a
             >
@@ -65,7 +74,7 @@
 
         <div class="col-md-9">
           <div class="row">
-            <div class="col-12 pt-4 text-center">
+            <div class="col-12 pt-4 pb-4 text-center">
               <h1>Detalles de Producto</h1>
             </div>
 
@@ -78,7 +87,7 @@
                 <div class="carousel-inner">
                   <div class="carousel-item active">
                     <img
-                      src="tumbnail.png"
+                      src="<?= $product['cover'] ?>"
                       class="d-block w-100"
                       alt="..."
                       style="max-width: 500px"
@@ -125,20 +134,46 @@
                   ></span>
                   <span class="visually-hidden">Next</span>
                 </button>
+                <h2 class="col-12 pt-3 text-center"><?= $product['brand']['name'] ?></h2>
               </div>
             </div>
 
             <div class="col-12 pt-3">
-              <h2>Nombre del producto</h2>
+              <h2><?php echo $product['name']; ?></h2>
             </div>
 
             <div class="col-12">
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero
-                architecto expedita fuga cumque. Repellat perspiciatis vitae
-                voluptates nesciunt sed magni quidem optio iure soluta a porro,
-                eius assumenda autem totam.
+                <?php echo $product['description']; ?>
               </p>
+            </div>
+
+            <div class="col-12 pt-3">
+              <h2>Categorias</h2>
+            </div>
+
+            <div class="col-12">
+              <div class="row">
+                <ul class="list-group list-group-horizontal">
+                  <?php foreach ($product['categories'] as $category): ?>
+                    <li class="list-group-item col-2"><?= $category['name'] ?></li>
+                  <?php endforeach; ?>
+                </ul>
+              </div>
+            </div>
+
+            <div class="col-12 pt-3">
+              <h2>Etiquetas</h2>
+            </div>
+
+            <div class="col-12">
+              <div class="row">
+                <ul class="list-group list-group-horizontal">
+                  <?php foreach ($product['tags'] as $category): ?>
+                    <li class="list-group-item col-2"><?= $category['name'] ?></li>
+                  <?php endforeach; ?>
+                </ul>
+              </div>
             </div>
 
             <div class="col-12 pt-3">

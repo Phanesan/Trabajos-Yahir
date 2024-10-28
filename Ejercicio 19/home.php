@@ -151,7 +151,9 @@ $products = json_decode(ProductController::getProducts(), true)['data'];
                                 <div class="card-body">
                                     <h5 class="card-title"><?= $product['name'] ?></h5>
                                     <p class="card-text"><?= $product['description'] ?></p>
-                                    <button class="btn btn-primary">Comprar</button>
+                                    <form action="detalles-productos.php?slug=<?= $product['slug'] ?>" method="POST">
+                                        <button type="submit" class="btn btn-primary">Ver</button>
+                                    </form>
                                     <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editProductModal">
                                         Editar Producto
                                     </button>
