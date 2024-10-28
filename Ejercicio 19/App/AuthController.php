@@ -41,9 +41,9 @@ class AuthController
 
         if($json['code'] == 2) {
             $_SESSION['data'] = $json;
-            header("Location: ../home.html");
+            header("Location: ../home.php");
         } else {
-            header("Location: ../index.html");
+            header("Location: ../index.php");
         }
     }
 }

@@ -1,11 +1,20 @@
+<?php
+
+require 'App/ProductController.php';
+
+$products = json_decode(ProductController::getProducts(), true)['data'];
+
+?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
+
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -29,10 +38,10 @@
             </div>
         </div>
     </nav>
-    
+
     <div class="container-fluid mt-4">
         <div class="row">
-    
+
             <div class="col-md-3">
                 <div class="list-group">
                     <a href="home.html" class="list-group-item list-group-item-action active">Productos</a>
@@ -41,7 +50,7 @@
                     <a href="#" class="list-group-item list-group-item-action">Categoría 4</a>
                 </div>
             </div>
-    
+
             <div class="col-md-9">
                 <div class="row">
                     <div class="col-12 pb-4 pe-4 d-flex justify-content-end">
@@ -49,7 +58,7 @@
                             Añadir Producto
                         </button>
                     </div>
-                
+
                     <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -132,109 +141,28 @@
                     </div>
 
                 </div>
-                <div class="row row-cols-1 row-cols-md-3 g-4">
-                    <div class="col">
-                        <div class="card">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Producto 1">
-                            <div class="card-body">
-                                <h5 class="card-title">Producto 1</h5>
-                                <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo debitis non molestiae dolores consectetur eum ducimus. Deleniti, dignissimos necessitatibus saepe corrupti voluptate quae sed asperiores nihil odit ex amet molestias!.</p>
-                                <button class="btn btn-primary">Comprar</button>
-                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editProductModal">
-                                    Editar Producto
-                                </button>
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#productDeletedModal">
-                                    Eliminar Producto
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-    
-                    <div class="col">
-                        <div class="card">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Producto 2">
-                            <div class="card-body">
-                                <h5 class="card-title">Producto 2</h5>
-                                <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt possimus facere molestiae, a magnam veritatis, obcaecati quae et officia atque repudiandae saepe quidem nihil hic est rerum! In, vero fugiat.</p>
-                                <button class="btn btn-primary">Comprar</button>
-                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editProductModal">
-                                    Editar Producto
-                                </button>
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#productDeletedModal">
-                                    Eliminar Producto
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-    
-                    <div class="col">
-                        <div class="card">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Producto 3">
-                            <div class="card-body">
-                                <h5 class="card-title">Producto 3</h5>
-                                <p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus dolor quaerat nostrum quibusdam corrupti rem optio beatae. Sapiente quibusdam dolor, in id iusto minima eligendi voluptatum veniam molestiae, tempore ratione?.</p>
-                                <button class="btn btn-primary">Comprar</button>
-                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editProductModal">
-                                    Editar Producto
-                                </button>
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#productDeletedModal">
-                                    Eliminar Producto
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-    
-                    <div class="col">
-                        <div class="card">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Producto 4">
-                            <div class="card-body">
-                                <h5 class="card-title">Producto 4</h5>
-                                <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro sed praesentium dolorem soluta laudantium repellat dicta tempora dignissimos, delectus ratione quisquam blanditiis quis, earum reprehenderit, tenetur ipsam libero ea. At!.</p>
-                                <button class="btn btn-primary">Comprar</button>
-                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editProductModal">
-                                    Editar Producto
-                                </button>
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#productDeletedModal">
-                                    Eliminar Producto
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-    
-                    <div class="col">
-                        <div class="card">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Producto 5">
-                            <div class="card-body">
-                                <h5 class="card-title">Producto 5</h5>
-                                <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Id sequi porro incidunt reprehenderit. Laboriosam placeat eius reiciendis vitae temporibus odio adipisci asperiores quisquam sed voluptatibus repellendus, quo ullam quia autem!.</p>
-                                <button class="btn btn-primary">Comprar</button>
-                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editProductModal">
-                                    Editar Producto
-                                </button>
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#productDeletedModal">
-                                    Eliminar Producto
-                                </button>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="col">
-                        <div class="card">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Producto 5">
-                            <div class="card-body">
-                                <h5 class="card-title">Producto 6</h5>
-                                <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, saepe quasi? Soluta ipsam fugit voluptate molestias fuga consequatur enim inventore, assumenda iste nesciunt aspernatur exercitationem itaque provident labore totam ea.</p>
-                                <button class="btn btn-primary">Comprar</button>
-                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editProductModal">
-                                    Editar Producto
-                                </button>
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#productDeletedModal">
-                                    Eliminar Producto
-                                </button>
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+
+                    <?php foreach ($products as $product) : ?>
+                        <div class="col">
+                            <div class="card">
+                                <img src="<?= $product['cover'] ?>" class="card-img-top" alt="<?= $product['name'] ?>">
+                                <div class="card-body">
+                                    <h5 class="card-title"><?= $product['name'] ?></h5>
+                                    <p class="card-text"><?= $product['description'] ?></p>
+                                    <button class="btn btn-primary">Comprar</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editProductModal">
+                                        Editar Producto
+                                    </button>
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#productDeletedModal">
+                                        Eliminar Producto
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-    
+                    <?php endforeach; ?>
+
                 </div>
             </div>
         </div>
@@ -242,4 +170,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
+
 </html>
