@@ -4,6 +4,15 @@ require 'App/ProductController.php';
 
 $products = json_decode(ProductController::getProducts(), true)['data'];
 
+if (isset($_GET['error'])) {
+    echo "<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var modal = new bootstrap.Modal(document.getElementById('addProductModal'));
+            modal.show();
+        });
+    </script>";
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -67,23 +76,29 @@ $products = json_decode(ProductController::getProducts(), true)['data'];
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form>
+                                    <form action="App/ProductController.php" method="POST">
                                         <div class="mb-3">
                                             <label for="productName" class="form-label">Nombre del Producto</label>
-                                            <input type="text" class="form-control" id="productName" placeholder="Ingresa el nombre del producto">
+                                            <input type="text" name="name" class="form-control" id="productName" placeholder="Ingresa el nombre del producto">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="productPrice" class="form-label">Precio</label>
-                                            <input type="number" class="form-control" id="productPrice" placeholder="Ingresa el precio">
+                                            <label for="slugName" class="form-label">Slug</label>
+                                            <input type="text" name="slug" class="form-control" id="slugName" placeholder="Slug">
                                         </div>
                                         <div class="mb-3">
                                             <label for="productDescription" class="form-label">Descripción</label>
-                                            <textarea class="form-control" id="productDescription" rows="3" placeholder="Añade una descripción"></textarea>
+                                            <textarea class="form-control" name="description" id="productDescription" rows="3" placeholder="Añade una descripción"></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="productFeatures" class="form-label">Features</label>
+                                            <textarea class="form-control" name="features" id="productFeatures" rows="3" placeholder="Añade un feature"></textarea>
                                         </div>
                                         <div class="mb-3">
                                             <label for="productImage" class="form-label">Imagen del Producto</label>
-                                            <input type="file" class="form-control" id="productImage">
+                                            <input type="file" name="image" class="form-control" id="productImage">
                                         </div>
+
+                                        <input type="hidden" name="action" value="create">
                                         <button type="submit" class="btn btn-success">Añadir Producto</button>
                                     </form>
                                 </div>

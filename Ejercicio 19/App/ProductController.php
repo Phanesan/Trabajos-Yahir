@@ -1,4 +1,21 @@
 <?php
+session_start();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = $_POST["name"];
+    $slug = $_POST["slug"];
+    $description = $_POST["description"];
+    $features = $_POST["features"];
+    $image = $_POST["image"];
+
+    switch ($_POST["action"]) {
+        case "create":
+            $product = new ProductController();
+            $product->create($name, $slug, $description, $features, $image);
+            break;
+    }
+}
+
 class ProductController
 {
     static function getProducts()
@@ -15,7 +32,7 @@ class ProductController
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'GET',
             CURLOPT_HTTPHEADER => array(
-                'Authorization: Bearer 635|dpQ8rIYnu4zuYBZB71sBeAhBrEtTuTZe8M4SGYjQ'
+                'Authorization: Bearer ' . $_SESSION['data']['data']['token']
             ),
         ));
 
@@ -33,7 +50,7 @@ class ProductController
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products/slug/'.$slug,
+            CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products/slug/' . $slug,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -42,7 +59,7 @@ class ProductController
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'GET',
             CURLOPT_HTTPHEADER => array(
-                'Authorization: Bearer 17|rRMO05q3HMyZcdCF7zGX586aW7sNSPvrDD9ytYut'
+                'Authorization: Bearer ' . $_SESSION['data']['data']['token']
             ),
         ));
 
@@ -50,5 +67,47 @@ class ProductController
 
         curl_close($curl);
         return $response;
+    }
+
+    static function create($name, $slug, $description, $features, $image)
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array(
+                'name' => $name,
+                'slug' => $slug, 
+                'description' => $description, 
+                'features' => $features, 
+                'brand_id' => '1', 
+                'cover' => $image, 
+                'categories[0]' => '3', 
+                'categories[1]' => '4', 
+                'tags[0]' => '3', 
+                'tags[1]' => '4'),
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer ' . $_SESSION['data']['data']['token']
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $code = json_decode($response, true)['code'];
+
+        if ($code == 4) {
+            header("Location: ../detalles-productos.php?slug=" . $slug);
+        } else {
+            header("Location: ../home.php?error=" . $code);
+        }
     }
 }
