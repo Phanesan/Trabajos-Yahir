@@ -2,6 +2,7 @@
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $id = $_POST["id"];
     $name = $_POST["name"];
     $slug = $_POST["slug"];
     $description = $_POST["description"];
@@ -12,6 +13,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         case "create":
             $product = new ProductController();
             $product->create($name, $slug, $description, $features, $image);
+            break;
+        case "edit":
+            $product = new ProductController();
+            $product->edit($id, $name, $slug, $description, $features);
             break;
     }
 }
@@ -45,7 +50,7 @@ class ProductController
         return $response;
     }
 
-    static function product($slug)
+    static function product($slug, $encode = false)
     {
         $curl = curl_init();
 
@@ -66,6 +71,9 @@ class ProductController
         $response = curl_exec($curl);
 
         curl_close($curl);
+        if($encode) {
+            return json_encode($response);
+        }
         return $response;
     }
 
@@ -96,6 +104,38 @@ class ProductController
             CURLOPT_HTTPHEADER => array(
                 'Authorization: Bearer ' . $_SESSION['data']['data']['token']
             ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $code = json_decode($response, true)['code'];
+
+        if ($code == 4) {
+            header("Location: ../detalles-productos.php?slug=" . $slug);
+        } else {
+            header("Location: ../home.php?error=" . $code);
+        }
+    }
+
+    static function edit($id, $name, $slug, $description, $features) {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'PUT',
+        CURLOPT_POSTFIELDS => 'name=' . $name . '&slug=' . $slug . '&description=' . $description . '&features=' . $features . '&brand_id=1&id=' . $id . '&categories%5B0%5D=3&categories%5B1%5D=4&tags%5B0%5D=3&tags%5B1%5D=4',
+        CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/x-www-form-urlencoded',
+            'Authorization: Bearer ' . $_SESSION['data']['data']['token']
+        ),
         ));
 
         $response = curl_exec($curl);

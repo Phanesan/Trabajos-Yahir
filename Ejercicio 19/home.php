@@ -114,23 +114,30 @@ if (isset($_GET['error'])) {
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form>
+                                    <form action="App/ProductController.php" method="POST">
                                         <div class="mb-3">
                                             <label for="productName" class="form-label">Nombre del Producto</label>
-                                            <input type="text" class="form-control" id="productName" placeholder="Nombre del producto">
+                                            <input type="text" name="name" class="form-control" id="productNameEdit" placeholder="Ingresa el nombre del producto">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="productPrice" class="form-label">Precio</label>
-                                            <input type="number" class="form-control" id="productPrice" placeholder="Precio">
+                                            <label for="slugName" class="form-label">Slug</label>
+                                            <input type="text" name="slug" class="form-control" id="slugNameEdit" placeholder="Slug">
                                         </div>
                                         <div class="mb-3">
                                             <label for="productDescription" class="form-label">Descripción</label>
-                                            <textarea class="form-control" id="productDescription" rows="3" placeholder="Descripción"></textarea>
+                                            <textarea class="form-control" name="description" id="productDescriptionEdit" rows="3" placeholder="Añade una descripción"></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="productFeatures" class="form-label">Features</label>
+                                            <textarea class="form-control" name="features" id="productFeaturesEdit" rows="3" placeholder="Añade un feature"></textarea>
                                         </div>
                                         <div class="mb-3">
                                             <label for="productImage" class="form-label">Imagen del Producto</label>
-                                            <input type="file" class="form-control" id="productImage">
+                                            <input type="file" name="image" class="form-control" id="productImageEdit">
                                         </div>
+
+                                        <input type="hidden" name="id" id="productId" value="">
+                                        <input type="hidden" name="action" value="edit">
                                         <button type="submit" class="btn btn-success">Editar Producto</button>
                                     </form>
                                 </div>
@@ -169,7 +176,12 @@ if (isset($_GET['error'])) {
                                     <form action="detalles-productos.php?slug=<?= $product['slug'] ?>" method="POST">
                                         <button type="submit" class="btn btn-primary">Ver</button>
                                     </form>
-                                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editProductModal">
+                                    <button type="button" id="<?= $product['id'] ?>"
+                                        data-name="<?= $product['name'] ?>"
+                                        data-slug="<?= $product['slug'] ?>"
+                                        data-description="<?= $product['description'] ?>"
+                                        data-features="<?= $product['features'] ?>"
+                                        class="editButton btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editProductModal">
                                         Editar Producto
                                     </button>
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#productDeletedModal">
@@ -186,6 +198,36 @@ if (isset($_GET['error'])) {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const url = new URL(window.location.href);
+        
+        const editButtons = document.querySelectorAll('.editButton');
+        editButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                
+                const data_name = button.getAttribute('data-name');
+                const data_slug = button.getAttribute('data-slug');
+                const data_description = button.getAttribute('data-description');
+                const data_features = button.getAttribute('data-features');
+                
+                document.getElementById('productNameEdit').value = data_name;
+                document.getElementById('slugNameEdit').value = data_slug;
+                document.getElementById('productDescriptionEdit').value = data_description;
+                document.getElementById('productFeaturesEdit').value = data_features;
+                document.getElementById('productId').value = button.getAttribute('id');
+            })    
+        })
+
+        const modal = document.getElementById("editProductModal");
+
+        modal.addEventListener("hidden.bs.modal", function () {
+            url.searchParams.delete('key');
+            window.history.pushState({}, '', url);
+        });
+    })
+    </script>
 </body>
 
 </html>
