@@ -4,13 +4,26 @@ require 'App/ProductController.php';
 
 $products = json_decode(ProductController::getProducts(), true)['data'];
 
-if (isset($_GET['error'])) {
-    echo "<script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var modal = new bootstrap.Modal(document.getElementById('addProductModal'));
-            modal.show();
-        });
-    </script>";
+if (isset($_GET['status'])) {
+    switch($_GET['status']) {
+        case '1':
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var modal = new bootstrap.Modal(document.getElementById('addProductModal'));
+                    modal.show();
+                });
+            </script>";
+            break;
+        case '2':
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var modal = new bootstrap.Modal(document.getElementById('editProductModal'));
+                    modal.show();
+                });
+            </script>";
+            break;
+    }
+
 }
 
 ?>
@@ -145,15 +158,37 @@ if (isset($_GET['error'])) {
                         </div>
                     </div>
 
-                    <div class="modal fade" id="productDeletedModal" tabindex="-1" aria-labelledby="productDeletedModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="productDeletedModalLabel">Producto Eliminado</h5>
+                                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <p>El producto ha sido eliminado exitosamente.</p>
+                                    ¿Estás seguro de que deseas eliminar este producto?.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <form action="App/ProductController.php" method="POST">
+                                        <input type="hidden" name="id" id="deleteProductId">
+                                        <input type="hidden" name="action" value="delete">
+                                        <button type="submit" class="btn btn-danger" id="confirmDeleteButton">Eliminar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="deleteSuccessModal" tabindex="-1" aria-labelledby="deleteSuccessModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteSuccessModalLabel">Producto Eliminado</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    El producto ha sido eliminado exitosamente.
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
@@ -166,7 +201,7 @@ if (isset($_GET['error'])) {
 
                 <div class="row row-cols-1 row-cols-md-3 g-4">
 
-                    <?php foreach ($products as $product) : ?>
+                    <?php foreach (array_reverse($products) as $product) : ?>
                         <div class="col">
                             <div class="card">
                                 <img src="<?= $product['cover'] ?>" class="card-img-top" alt="<?= $product['name'] ?>">
@@ -184,7 +219,7 @@ if (isset($_GET['error'])) {
                                         class="editButton btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editProductModal">
                                         Editar Producto
                                     </button>
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#productDeletedModal">
+                                    <button onclick="confirmDelete(<?= $product['id'] ?>)" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
                                         Eliminar Producto
                                     </button>
                                 </div>
@@ -198,35 +233,39 @@ if (isset($_GET['error'])) {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    
+
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const url = new URL(window.location.href);
-        
-        const editButtons = document.querySelectorAll('.editButton');
-        editButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                
-                const data_name = button.getAttribute('data-name');
-                const data_slug = button.getAttribute('data-slug');
-                const data_description = button.getAttribute('data-description');
-                const data_features = button.getAttribute('data-features');
-                
-                document.getElementById('productNameEdit').value = data_name;
-                document.getElementById('slugNameEdit').value = data_slug;
-                document.getElementById('productDescriptionEdit').value = data_description;
-                document.getElementById('productFeaturesEdit').value = data_features;
-                document.getElementById('productId').value = button.getAttribute('id');
-            })    
+        document.addEventListener('DOMContentLoaded', function() {
+            const url = new URL(window.location.href);
+
+            const editButtons = document.querySelectorAll('.editButton');
+            editButtons.forEach(button => {
+                button.addEventListener('click', function() {
+
+                    const data_name = button.getAttribute('data-name');
+                    const data_slug = button.getAttribute('data-slug');
+                    const data_description = button.getAttribute('data-description');
+                    const data_features = button.getAttribute('data-features');
+
+                    document.getElementById('productNameEdit').value = data_name;
+                    document.getElementById('slugNameEdit').value = data_slug;
+                    document.getElementById('productDescriptionEdit').value = data_description;
+                    document.getElementById('productFeaturesEdit').value = data_features;
+                    document.getElementById('productId').value = button.getAttribute('id');
+                })
+            })
+
+            const modal = document.getElementById("editProductModal");
+
+            modal.addEventListener("hidden.bs.modal", function() {
+                url.searchParams.delete('key');
+                window.history.pushState({}, '', url);
+            });
         })
-
-        const modal = document.getElementById("editProductModal");
-
-        modal.addEventListener("hidden.bs.modal", function () {
-            url.searchParams.delete('key');
-            window.history.pushState({}, '', url);
-        });
-    })
+        
+        function confirmDelete(id) {
+            document.getElementById('deleteProductId').setAttribute('value', id);
+        }
     </script>
 </body>
 
