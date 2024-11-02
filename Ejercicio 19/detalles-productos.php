@@ -3,7 +3,6 @@
 require 'App/ProductController.php';
 
 $slug = $_GET['slug'];
-
 $product = json_decode(ProductController::product($slug), true)['data'];
 
 ?>
@@ -134,7 +133,7 @@ $product = json_decode(ProductController::product($slug), true)['data'];
                   ></span>
                   <span class="visually-hidden">Next</span>
                 </button>
-                <h2 class="col-12 pt-3 text-center"><?= $product['brand']['name'] ?></h2>
+                <h2 class="col-12 pt-3 text-center"><?= isset($product['brand']['name']) ? $product['brand']['name'] : 'Sin Marca' ?></h2>
               </div>
             </div>
 
@@ -155,6 +154,9 @@ $product = json_decode(ProductController::product($slug), true)['data'];
             <div class="col-12">
               <div class="row">
                 <ul class="list-group list-group-horizontal">
+                  <?php if (count($product['categories']) == 0): ?>
+                    <li class="list-group-item col-2">Sin Categorias</li>
+                  <?php endif; ?>
                   <?php foreach ($product['categories'] as $category): ?>
                     <li class="list-group-item col-2"><?= $category['name'] ?></li>
                   <?php endforeach; ?>
@@ -169,6 +171,9 @@ $product = json_decode(ProductController::product($slug), true)['data'];
             <div class="col-12">
               <div class="row">
                 <ul class="list-group list-group-horizontal">
+                  <?php if (count($product['tags']) == 0): ?>
+                    <li class="list-group-item col-2">Sin Etiquetas</li>
+                  <?php endif; ?>
                   <?php foreach ($product['tags'] as $category): ?>
                     <li class="list-group-item col-2"><?= $category['name'] ?></li>
                   <?php endforeach; ?>

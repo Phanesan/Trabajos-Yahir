@@ -1,11 +1,12 @@
 <?php
 
+require 'Utils.php';
 require 'App/ProductController.php';
 
 $products = json_decode(ProductController::getProducts(), true)['data'];
 
 if (isset($_GET['status'])) {
-    switch($_GET['status']) {
+    switch ($_GET['status']) {
         case '1':
             echo "<script>
                 document.addEventListener('DOMContentLoaded', function() {
@@ -23,7 +24,6 @@ if (isset($_GET['status'])) {
             </script>";
             break;
     }
-
 }
 
 ?>
@@ -89,7 +89,7 @@ if (isset($_GET['status'])) {
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="App/ProductController.php" method="POST">
+                                    <form enctype="multipart/form-data" action="App/ProductController.php" method="POST">
                                         <div class="mb-3">
                                             <label for="productName" class="form-label">Nombre del Producto</label>
                                             <input type="text" name="name" class="form-control" id="productName" placeholder="Ingresa el nombre del producto">
@@ -202,13 +202,27 @@ if (isset($_GET['status'])) {
                 <div class="row row-cols-1 row-cols-md-3 g-4">
 
                     <?php foreach (array_reverse($products) as $product) : ?>
-                        <div class="col">
-                            <div class="card">
-                                <img src="<?= $product['cover'] ?>" class="card-img-top" alt="<?= $product['name'] ?>">
+                        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                            <div class="card h-100">
+                                <div class="ratio ratio-1x1">
+                                    <img src="<?php
+                                    $cover = separateURL($product['cover'], "products/");
+
+                                    if ($cover[1] !== "") {
+                                        echo $product['cover'];
+                                    } else {
+                                        echo "tumbnail.png";
+                                    }
+                                    ?>"
+                                    class="card-img-top img-fluid" alt="<?= $product['name'] ?>" style="object-fit: contain;">
+                                </div>
                                 <div class="card-body">
-                                    <h5 class="card-title"><?= $product['name'] ?></h5>
-                                    <p class="card-text"><?= $product['description'] ?></p>
+                                    <div class="card-title-text" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">
+                                        <h5 class="card-title"><?= $product['name'] ?></h5>
+                                    </div>
+                                    <p class="card-text" style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;"><?= $product['description'] ?></p>
                                     <form action="detalles-productos.php?slug=<?= $product['slug'] ?>" method="POST">
+                                        <input type="hidden" name="action" value="null">
                                         <button type="submit" class="btn btn-primary">Ver</button>
                                     </form>
                                     <button type="button" id="<?= $product['id'] ?>"
@@ -262,7 +276,7 @@ if (isset($_GET['status'])) {
                 window.history.pushState({}, '', url);
             });
         })
-        
+
         function confirmDelete(id) {
             document.getElementById('deleteProductId').setAttribute('value', id);
         }

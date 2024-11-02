@@ -4,7 +4,7 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!isset($_POST["action"])) {
-        header("Location: ../home.php");
+        header("Location: ./home.php");
         exit();
     }
 
@@ -14,10 +14,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $slug = $_POST["slug"];
             $description = $_POST["description"];
             $features = $_POST["features"];
-            $image = $_POST["image"];
+            $imageURL = $_FILES["image"]["tmp_name"];
 
             $product = new ProductController();
-            $product->create($name, $slug, $description, $features, $image);
+            $product->create($name, $slug, $description, $features, $imageURL);
             break;
         case "edit":
             $id = $_POST["id"];
@@ -113,7 +113,7 @@ class ProductController
                 'description' => $description,
                 'features' => $features,
                 'brand_id' => '1',
-                'cover' => $image,
+                'cover' => new CURLFile($image),
                 'categories[0]' => '3',
                 'categories[1]' => '4',
                 'tags[0]' => '3',
@@ -133,7 +133,8 @@ class ProductController
         if ($code == 4) {
             header("Location: ../detalles-productos.php?slug=" . $slug);
         } else {
-            header("Location: ../home.php?status=1");
+            echo $response;
+            //header("Location: ../home.php?status=1");
         }
     }
 
