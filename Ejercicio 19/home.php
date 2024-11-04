@@ -2,6 +2,7 @@
 
 require 'Utils.php';
 require 'App/ProductController.php';
+require 'App/BrandController.php';
 
 $products = json_decode(ProductController::getProducts(), true)['data'];
 
@@ -81,6 +82,7 @@ if (isset($_GET['status'])) {
                         </button>
                     </div>
 
+                    <!-- MODAL AÑADIR PRODUCTO -->
                     <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -107,6 +109,18 @@ if (isset($_GET['status'])) {
                                             <textarea class="form-control" name="features" id="productFeatures" rows="3" placeholder="Añade un feature"></textarea>
                                         </div>
                                         <div class="mb-3">
+                                            <label for="productBrand" class="form-label">Marca</label>
+                                            <select class="form-select" name="brand" aria-label="Select brand">
+                                                <option selected>Selecciona la marca</option>
+                                                <?php
+                                                $brands = $brandController->allBrands();
+                                                foreach ($brands as $brand) {
+                                                    echo '<option value="' . $brand['id'] . '">' . $brand['name'] . '</option>';
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
                                             <label for="productImage" class="form-label">Imagen del Producto</label>
                                             <input type="file" name="image" class="form-control" id="productImage">
                                         </div>
@@ -119,6 +133,7 @@ if (isset($_GET['status'])) {
                         </div>
                     </div>
 
+                    <!-- MODAL EDITAR PRODUCTO -->
                     <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -206,15 +221,15 @@ if (isset($_GET['status'])) {
                             <div class="card h-100">
                                 <div class="ratio ratio-1x1">
                                     <img src="<?php
-                                    $cover = separateURL($product['cover'], "products/");
+                                                $cover = separateURL($product['cover'], "products/");
 
-                                    if ($cover[1] !== "") {
-                                        echo $product['cover'];
-                                    } else {
-                                        echo "tumbnail.png";
-                                    }
-                                    ?>"
-                                    class="card-img-top img-fluid" alt="<?= $product['name'] ?>" style="object-fit: contain;">
+                                                if ($cover[1] !== "") {
+                                                    echo $product['cover'];
+                                                } else {
+                                                    echo "tumbnail.png";
+                                                }
+                                                ?>"
+                                        class="card-img-top img-fluid" alt="<?= $product['name'] ?>" style="object-fit: contain;">
                                 </div>
                                 <div class="card-body">
                                     <div class="card-title-text" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">

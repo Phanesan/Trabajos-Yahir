@@ -1,5 +1,6 @@
 <?php
-session_start();
+if(!isset($_SESSION))
+    session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -14,10 +15,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $slug = $_POST["slug"];
             $description = $_POST["description"];
             $features = $_POST["features"];
+            $brand = $_POST["brand"];
             $imageURL = $_FILES["image"]["tmp_name"];
 
+            if (empty($name) || empty($slug) || empty($description) || empty($features) || empty($brand)) {
+                header("Location: ../home.php?status=1");
+                exit();
+            }
+
             $product = new ProductController();
-            $product->create($name, $slug, $description, $features, $imageURL);
+            $product->create($name, $slug, $description, $features, $brand, $imageURL === "" ? "" : $imageURL);
             break;
         case "edit":
             $id = $_POST["id"];
@@ -25,6 +32,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $slug = $_POST["slug"];
             $description = $_POST["description"];
             $features = $_POST["features"];
+
+            if (empty($name) || empty($slug) || empty($description) || empty($features)) {
+                header("Location: ../home.php?status=2");
+                exit();
+            }
 
             $product = new ProductController();
             $product->edit($id, $name, $slug, $description, $features);
@@ -94,7 +106,7 @@ class ProductController
         return $response;
     }
 
-    static function create($name, $slug, $description, $features, $image)
+    static function create($name, $slug, $description, $features, $brand, $image)
     {
         $curl = curl_init();
 
@@ -112,12 +124,12 @@ class ProductController
                 'slug' => $slug,
                 'description' => $description,
                 'features' => $features,
-                'brand_id' => '1',
-                'cover' => new CURLFile($image),
-                'categories[0]' => '3',
-                'categories[1]' => '4',
-                'tags[0]' => '3',
-                'tags[1]' => '4'
+                'brand_id' => $brand,
+                'cover' => $image === "" ? "https://crud.jonathansoto.mx/storage/products" : new CURLFile($image),
+                'categories[0]' => '',
+                'categories[1]' => '',
+                'tags[0]' => '',
+                'tags[1]' => ''
             ),
             CURLOPT_HTTPHEADER => array(
                 'Authorization: Bearer ' . $_SESSION['data']['data']['token']
@@ -127,9 +139,9 @@ class ProductController
         $response = curl_exec($curl);
 
         curl_close($curl);
-
+        
         $code = json_decode($response, true)['code'];
-
+        var_dump($code);
         if ($code == 4) {
             header("Location: ../detalles-productos.php?slug=" . $slug);
         } else {
@@ -167,7 +179,7 @@ class ProductController
         if ($code == 4) {
             header("Location: ../detalles-productos.php?slug=" . $slug);
         } else {
-            header("Location: ../home.php?error=2");
+            header("Location: ../home.php?status=2");
         }
     }
 
@@ -197,7 +209,7 @@ class ProductController
         if ($code == 4) {
             header("Location: ../home.php");
         } else {
-            header("Location: ../home.php?error=3");
+            header("Location: ../home.php?status=3");
         }
     }
 }
