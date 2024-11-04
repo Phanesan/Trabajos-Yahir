@@ -1,4 +1,5 @@
 <?php
+require '../Utils.php';
 
 session_start();
 
@@ -41,6 +42,7 @@ class AuthController
 
         if($json['code'] == 2) {
             $_SESSION['data'] = $json;
+            $_SESSION['token'] = generateToken();
             header("Location: ../home.php");
         } else {
             header("Location: ../index.php");

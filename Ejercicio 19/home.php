@@ -111,7 +111,7 @@ if (isset($_GET['status'])) {
                                         <div class="mb-3">
                                             <label for="productBrand" class="form-label">Marca</label>
                                             <select class="form-select" name="brand" aria-label="Select brand">
-                                                <option selected>Selecciona la marca</option>
+                                                <option value="" selected>Selecciona la marca</option>
                                                 <?php
                                                 $brands = $brandController->allBrands();
                                                 foreach ($brands as $brand) {
@@ -126,6 +126,7 @@ if (isset($_GET['status'])) {
                                         </div>
 
                                         <input type="hidden" name="action" value="create">
+                                        <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>">
                                         <button type="submit" class="btn btn-success">Añadir Producto</button>
                                     </form>
                                 </div>
@@ -158,10 +159,6 @@ if (isset($_GET['status'])) {
                                         <div class="mb-3">
                                             <label for="productFeatures" class="form-label">Features</label>
                                             <textarea class="form-control" name="features" id="productFeaturesEdit" rows="3" placeholder="Añade un feature"></textarea>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="productImage" class="form-label">Imagen del Producto</label>
-                                            <input type="file" name="image" class="form-control" id="productImageEdit">
                                         </div>
 
                                         <input type="hidden" name="id" id="productId" value="">

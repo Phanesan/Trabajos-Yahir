@@ -11,6 +11,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     switch ($_POST["action"]) {
         case "create":
+            if(!isset($_SESSION['data']) && $_SESSION['token'] != $_POST['token']) {
+                header("Location: ../index.php");
+                exit();
+            }
+
             $name = $_POST["name"];
             $slug = $_POST["slug"];
             $description = $_POST["description"];
@@ -18,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $brand = $_POST["brand"];
             $imageURL = $_FILES["image"]["tmp_name"];
 
-            if (empty($name) || empty($slug) || empty($description) || empty($features) || empty($brand)) {
+            if (empty($name) || empty($slug) || empty($description) || empty($features)) {
                 header("Location: ../home.php?status=1");
                 exit();
             }
@@ -27,6 +32,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $product->create($name, $slug, $description, $features, $brand, $imageURL === "" ? "" : $imageURL);
             break;
         case "edit":
+            if(!isset($_SESSION['data']) && $_SESSION['token'] != $_POST['token']) {
+                header("Location: ../index.php");
+                exit();
+            }
+
             $id = $_POST["id"];
             $name = $_POST["name"];
             $slug = $_POST["slug"];
@@ -42,6 +52,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $product->edit($id, $name, $slug, $description, $features);
             break;
         case "delete":
+            if(!isset($_SESSION['data']) && $_SESSION['token'] != $_POST['token']) {
+                header("Location: ../index.php");
+                exit();
+            }
+
             $id = $_POST["id"];
             
             $product = new ProductController();
@@ -145,8 +160,7 @@ class ProductController
         if ($code == 4) {
             header("Location: ../detalles-productos.php?slug=" . $slug);
         } else {
-            echo $response;
-            //header("Location: ../home.php?status=1");
+            header("Location: ../home.php?status=1");
         }
     }
 
