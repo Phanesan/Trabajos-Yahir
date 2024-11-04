@@ -16,7 +16,7 @@
                 </div>
                 <div class="row">
                     <div class="col-4 mx-auto">
-                        <form method="POST" action="App/AuthController.php">
+                        <form method="POST" action="auth">
                             <div class="mb-3">
                               <label for="exampleInputEmail1" class="form-label">Correo</label>
                               <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" required>

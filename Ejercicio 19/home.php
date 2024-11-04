@@ -91,7 +91,7 @@ if (isset($_GET['status'])) {
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form enctype="multipart/form-data" action="App/ProductController.php" method="POST">
+                                    <form enctype="multipart/form-data" action="resources" method="POST">
                                         <div class="mb-3">
                                             <label for="productName" class="form-label">Nombre del Producto</label>
                                             <input type="text" name="name" class="form-control" id="productName" placeholder="Ingresa el nombre del producto">
@@ -143,7 +143,7 @@ if (isset($_GET['status'])) {
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="App/ProductController.php" method="POST">
+                                    <form action="resources" method="POST">
                                         <div class="mb-3">
                                             <label for="productName" class="form-label">Nombre del Producto</label>
                                             <input type="text" name="name" class="form-control" id="productNameEdit" placeholder="Ingresa el nombre del producto">
@@ -182,7 +182,7 @@ if (isset($_GET['status'])) {
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                    <form action="App/ProductController.php" method="POST">
+                                    <form action="resources" method="POST">
                                         <input type="hidden" name="id" id="deleteProductId">
                                         <input type="hidden" name="action" value="delete">
                                         <button type="submit" class="btn btn-danger" id="confirmDeleteButton">Eliminar</button>
@@ -233,7 +233,7 @@ if (isset($_GET['status'])) {
                                         <h5 class="card-title"><?= $product['name'] ?></h5>
                                     </div>
                                     <p class="card-text" style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;"><?= $product['description'] ?></p>
-                                    <form action="detalles-productos.php?slug=<?= $product['slug'] ?>" method="POST">
+                                    <form action="detalles-productos.php/product/<?= $product['slug'] ?>" method="POST">
                                         <input type="hidden" name="action" value="null">
                                         <button type="submit" class="btn btn-primary">Ver</button>
                                     </form>

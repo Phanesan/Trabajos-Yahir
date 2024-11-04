@@ -2,7 +2,8 @@
 
 require 'App/ProductController.php';
 
-$slug = $_GET['slug'];
+$slug = explode('/', $_SERVER['REQUEST_URI'])[3];
+
 $product = json_decode(ProductController::product($slug), true)['data'];
 
 ?>
@@ -54,11 +55,11 @@ $product = json_decode(ProductController::product($slug), true)['data'];
       <div class="row">
         <div class="col-md-3">
           <div class="list-group">
-            <a href="home.php" class="list-group-item list-group-item-action"
+            <a href="../home" class="list-group-item list-group-item-action"
               >Productos</a
             >
             <a
-              href="detalles-productos.php?slug=<?= $product['slug'] ?>"
+              href="detalles-productos.php/product/<?= $product['slug'] ?>"
               class="list-group-item list-group-item-action active"
               >Detalle de Productos</a
             >

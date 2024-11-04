@@ -5,7 +5,7 @@ if(!isset($_SESSION))
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!isset($_POST["action"])) {
-        header("Location: ./home.php");
+        header("Location: ./home");
         exit();
     }
 
@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $imageURL = $_FILES["image"]["tmp_name"];
 
             if (empty($name) || empty($slug) || empty($description) || empty($features)) {
-                header("Location: ../home.php?status=1");
+                header("Location: ../home?status=1");
                 exit();
             }
 
@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $features = $_POST["features"];
 
             if (empty($name) || empty($slug) || empty($description) || empty($features)) {
-                header("Location: ../home.php?status=2");
+                header("Location: ../home?status=2");
                 exit();
             }
 
@@ -158,9 +158,9 @@ class ProductController
         $code = json_decode($response, true)['code'];
         var_dump($code);
         if ($code == 4) {
-            header("Location: ../detalles-productos.php?slug=" . $slug);
+            header("Location: detalles-productos.php/product/" . $slug);
         } else {
-            header("Location: ../home.php?status=1");
+            header("Location: ../home?status=1");
         }
     }
 
@@ -191,9 +191,9 @@ class ProductController
         $code = json_decode($response, true)['code'];
 
         if ($code == 4) {
-            header("Location: ../detalles-productos.php?slug=" . $slug);
+            header("Location: detalles-productos.php/product/" . $slug);
         } else {
-            header("Location: ../home.php?status=2");
+            header("Location: ../home?status=2");
         }
     }
 
@@ -221,9 +221,9 @@ class ProductController
         
         $code = json_decode($response, true)['code'];
         if ($code == 4) {
-            header("Location: ../home.php");
+            header("Location: ../home");
         } else {
-            header("Location: ../home.php?status=3");
+            header("Location: ../home?status=3");
         }
     }
 }
